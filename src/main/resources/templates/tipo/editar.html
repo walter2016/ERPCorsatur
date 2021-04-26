@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments :: headerfiles">
+</head>
+<body>
+	<header th:insert="fragments :: nav"></header>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<span class="anchor" id="formAreaEdit"></span>
+				<!-- form user info -->
+				<div class="card card-outline-secondary">
+					<div class="card-header">
+						<h3 class="mb-0">Editar Tipo Por Categoria</h3>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/tipo/actualizar}" method="post">
+							<input type="hidden" name="tipoId" id="tipoId"
+								th:value="${tipo.tipoId}">
+							<!-- control ataque csrf -->
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}">
+							<!-- fin control ataque csrf -->
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label">Codigo</label>
+								<div class="col-lg-9">
+									<input class="form-control" type="text" id="codigo"
+										name="codigo" required="required" autocomplete="off"
+										th:value="${tipo.codigo}">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label">Nombre
+									del Tipo</label>
+								<div class="col-lg-9">
+									<input class="form-control" type="text" id="nombre"
+										name="nombre" required="required" autocomplete="off"
+										th:value="${tipo.nombre}">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label">Categoria</label>
+								<div class="col-lg-9">
+									<select id="categoriaId" class="form-control" name="categoriaId">
+										<option th:value="${tipo.categoriaId.categoriaId}"
+											th:text="${tipo.categoriaId.nombre}" />
+										<option th:each="categoria : ${categorias}" th:value="${categoria.categoriaId}"
+											th:text="${categoria.nombre}" />
+
+									</select>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label"></label>
+								<div class="col-lg-9">
+									<button type="submit"
+										class="col-lg-3 btn btn-outline-success btn-block">
+										<i class="far fa-save"></i> Guardar
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- /form user info -->
+				<a th:href="@{/tipo/lista}" style="text-decoration: none;"><button
+						class="col-lg-3 btn btn-outline-info">
+						<i class="fas fa-arrow-circle-left"></i> Volver
+					</button></a>
+
+				<div th:if="${error}"
+					class="alert alert-danger alert-dismissible fade show mt-2"
+					role="alert">
+					<p th:text="${error}"></p>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:insert="fragments :: footer"></footer>
+	<div th:insert="fragments :: scripts"></div>
+</body>
+</html>
