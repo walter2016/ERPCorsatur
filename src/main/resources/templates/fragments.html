@@ -63,6 +63,10 @@
 							<a class="dropdown-item" th:href="@{/hacienda/lista}"> <i
 								class="far fa-list-alt"></i> Codigos de Hacienda
 							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/inventario/lista}"> <i
+								class="far fa-list-alt"></i> Inventario
+							</a>
 						</div></li>
 				</ul>
 
@@ -82,14 +86,11 @@
 			</div>
 		</nav>
 	</div>
-	
+
 
 </body>
-<footer th:fragment="footer"
-	class="footer py-3 text-center dark bg-dark fixed-bottom">
-	<div class="container">
-		<span class="text-muted">&copy; CORSATUR</span>
-	</div>
+<footer th:fragment="footer">
+	
 </footer>
 
 <div th:fragment="scripts">

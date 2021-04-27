@@ -42,7 +42,7 @@ public class CodigoHaciendaController {
 		Pageable pageRequest = PageRequest.of(page, 10);
 
 		 
-		Page<CodigoHacienda> hacienda = codigoHaciendaService.obtenerActivos(pageRequest);
+		Page<CodigoHacienda> hacienda = codigoHaciendaService.obtenerActivosPaginados(pageRequest);
 		
 		PageRender<CodigoHacienda> pageRender = new PageRender<CodigoHacienda>("/hacienda/lista/", hacienda);
 		

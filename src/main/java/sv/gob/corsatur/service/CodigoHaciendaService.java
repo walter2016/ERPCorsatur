@@ -56,7 +56,7 @@ public class CodigoHaciendaService {
 		codigoHaciendaRepository.eliminarCodigoHacienda(haciendaId, updateDate, userUpdate);
 	}
 	
-	public Page<CodigoHacienda> obtenerActivos(Pageable pageable){
+	public Page<CodigoHacienda> obtenerActivosPaginados(Pageable pageable){
 		return codigoHaciendaRepository.findEstado(pageable);
 	}
 	
