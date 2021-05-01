@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import sv.gob.corsatur.model.Categoria;
 import sv.gob.corsatur.model.CodigoHacienda;
 import sv.gob.corsatur.model.Inventario;
 import sv.gob.corsatur.model.Tipo;
@@ -103,27 +102,23 @@ public class InventarioController {
 			model.addAttribute("tipos", tipos);
 			model.addAttribute("codigos", codigos);
 		}
-		if (costo<0.0) {
+		if (costo < 0.0) {
 			mv.setViewName("inventario/nuevo");
 			mv.addObject("error", "El costo debe de ser mayor a 0.0");
 			model.addAttribute("tipos", tipos);
 			model.addAttribute("codigos", codigos);
 		}
 
-		/* Inicio Seccion de codigo que convierte la fecha del formulario a Date */
 		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
 		Date fechaAd = null;
-		Date fechaActual = new Date();
+
 		try {
 			fechaAd = formatoDelTexto.parse(fechaAdquisicion);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/* Fin Seccion de codigo que convierte la fecha del formulario a Date */
 
-		/* comienza la obtencionde datos para generar el codigo deinventario */
-		/* Incicio XXXX */
 		CodigoHacienda codigohacienda = haciendaService.getOne(haciendaId).get();
 		String numeroHacienda = codigohacienda.getCodigo();
 
@@ -141,7 +136,7 @@ public class InventarioController {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
 		Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
@@ -152,28 +147,72 @@ public class InventarioController {
 
 		String codigoIndividual = generarCodigoInventario(numeroHacienda, categoriaId, tipoInv, correlativo);
 
+		float valorResidual = (float) 0.0;
+		float valorDepreciar = (float) 0.0;
+		float depreciacionMensual = (float) 0.0;
+		float depreciacionAnual = (float) 0.0;
+		float depreciacionAcumulada = (float) 0.0;
+		float valorLibros = (float) 0.0;
+
+		if (depreciable == true) {
+
+			valorResidual = (float) (costo * 0.10);
+			valorDepreciar = (costo - valorResidual);
+			depreciacionMensual = (valorDepreciar / 60);
+			depreciacionAcumulada = valorDepreciar;
+			valorLibros = (costo - depreciacionAcumulada);
+		}
+
 		Inventario inventario = new Inventario(tipo, codigohacienda, corr, codigoIndividual, marca, modelo, serie,
-				fechaAd, costo, depreciable, 0, 0, 0, 0, 0, 0, new Date(),  usuario.getNombreUsuario(), "A");
+				fechaAd, costo, depreciable, valorResidual, valorDepreciar, depreciacionMensual, depreciacionAnual,
+				depreciacionAcumulada, valorLibros, new Date(), usuario.getNombreUsuario(), "A", "N");
 
 		inventarioService.save(inventario);
 
 		return new ModelAndView("redirect:/inventario/lista");
 	}
-	
-	
+
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/borrar/{inventarioId}")
 	public ModelAndView borrar(@PathVariable("inventarioId") int inventarioId) {
-		if (inventarioService.existsById(inventarioId)) {
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			UserDetails userDetails = (UserDetails) auth.getPrincipal();
-			Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
-			inventarioService.eliminar(inventarioId, new Date(), usuario.getNombreUsuario());
-			return new ModelAndView("redirect:/inventario/lista");
-		}
-		return null;
-	}
+		ModelAndView mv = new ModelAndView();
+		String virificacion = inventarioService.verificarSiEstaAsignado(inventarioId);
+		System.out.print("Si llego");
+		System.out.print(virificacion);
+		
+		if (virificacion.equalsIgnoreCase("N")) {
+			if (inventarioService.existsById(inventarioId)) {
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				UserDetails userDetails = (UserDetails) auth.getPrincipal();
+				Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
+				inventarioService.eliminar(inventarioId, new Date(), usuario.getNombreUsuario());
+				return new ModelAndView("redirect:/inventario/lista");
+			}
 
+		}
+		return new ModelAndView("redirect:/inventario/lista");
+
+	}
+	
+	
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/editar/{inventarioId}")
+	public ModelAndView editar(@PathVariable("inventarioId") int id) {
+		if (!inventarioService.existsById(id))
+			return new ModelAndView("redirect:/inventario/lista");
+		
+		Inventario inventario = inventarioService.getOne(id).get();
+
+		
+		ModelAndView mv = new ModelAndView("/inventario/editar");
+		List<Tipo> tipos = tipoService.obtenerActivos();
+		List<CodigoHacienda> codigos = haciendaService.obtenerActivos();
+		mv.addObject("tipos", tipos);
+		mv.addObject("codigos", codigos);
+		mv.addObject("inventario", inventario);
+		return mv;
+	}
+	
 
 	public String generarCorrelativo(int corr) {
 

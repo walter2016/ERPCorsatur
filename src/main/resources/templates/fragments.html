@@ -5,9 +5,10 @@
 <!--   -->
 <head th:fragment="headerfiles">
 <title>Corsatur</title>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" type="img/png"
-	th:href="@{https://www.thymeleaf.org/images/thymeleaf.png}">
+<!-- <link rel="icon" type="img/png"
+	th:href="@{https://www.thymeleaf.org/images/thymeleaf.png}"> -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -18,7 +19,8 @@
 <body>
 	<div th:fragment="nav">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-			<a class="navbar-brand" href="#">CORSATUR</a>
+			<a class="navbar-brand" th:href="@{/}">CORSATUR</a>
+
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -28,9 +30,7 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" th:href="@{/}">
-							<i class="fas fa-home"></i> Inicio <span class="sr-only">(current)</span>
-					</a></li>
+
 					<li class="nav-item active"
 						sec:authorize="isAuthenticated() && !hasRole('ROLE_ADMIN')"><a
 						class="nav-link" th:href="@{/area/lista}"> <i
@@ -67,6 +67,26 @@
 							<a class="dropdown-item" th:href="@{/inventario/lista}"> <i
 								class="far fa-list-alt"></i> Inventario
 							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/asignacion/lista}"> <i
+								class="far fa-list-alt"></i> Asignaciones de Inventrios
+							</a>
+						</div></li>
+					<li class="nav-item dropdown active"
+						sec:authorize="hasRole('ROLE_ADMIN')"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> <i class="fas fa-toolbox"></i> Admin.
+							HelpDesk
+					</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" th:href="@{/asignacion/asignacion}">
+								<i class="far fa-list-alt"></i> Realizar Asignacion
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/asignacion/descargo}"> <i
+								class="far fa-list-alt"></i> Realizar Descargo
+							</a>
 						</div></li>
 				</ul>
 
@@ -89,10 +109,13 @@
 
 
 </body>
-<footer th:fragment="footer">
-	
+<footer class="sticky-footer bg-white" th:fragment="footer">
+	<div class="container my-auto">
+		<div class="copyright text-center my-auto">
+			<span>Copyright &copy; Your Website 2021</span>
+		</div>
+	</div>
 </footer>
-
 <div th:fragment="scripts">
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

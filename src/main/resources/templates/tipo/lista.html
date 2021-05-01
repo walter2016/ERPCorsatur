@@ -9,7 +9,7 @@
 	<div class="container">
 		<h1>Listado de Tipos por Categorias</h1>
 		<br>
-		<div th:if="${!list.isEmpty()}">
+		<div>
 			<table class="table table-dark text-center">
 				<thead>
 					<tr>
@@ -84,7 +84,7 @@
 				</div>
 				<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/tipo/nuevo}">
 					<button class="btn btn-outline-success btn-lg">
-						<i class="fas fa-plus-circle"></i> Nueva Categoria
+						<i class="fas fa-plus-circle"></i> Nuevo Tipo
 					</button>
 				</a>
 				<div class="col-md-2"></div>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments :: headerfiles">
+</head>
+<body>
+	<header th:insert="fragments :: nav"></header>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<span class="anchor" id="formAreaEdit"></span>
+				<!-- form user info -->
+				<div class="card card-outline-secondary">
+					<div class="card-header">
+						<h3 class="mb-0">Asignacion de Inventario</h3>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/asignacion/guardar}" method="post">
+							<!-- control ataque csrf -->
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}">
+							<!-- fin control ataque csrf -->
+
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label">Codigo
+									de Inventario </label>
+								<div class="col-lg-9">
+									<select id="inventarioId" class="form-control"
+										name="inventarioId">
+										<option th:each="inventario : ${inventarios}"
+											th:value="${inventario.inventarioId}"
+											th:text="${inventario.codigoIndividual} + ' - ' +${inventario.tipoId.nombre} " />
+
+									</select>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label">Empleado
+								</label>
+								<div class="col-lg-9">
+									<select id="empleadoId" class="form-control" name="empleadoId">
+										<option th:each="empleado : ${empleados}"
+											th:value="${empleado.empleadoId}"
+											th:text="${empleado.primerNombre + ' ' + empleado.segundoNombre + ' '
+											 + empleado.primerApellido + ' ' + empleado.segundoApellido}" />
+									</select>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label">Area de Asignacion
+								</label>
+								<div class="col-lg-9">
+									<select id="areaId" class="form-control" name="areaId">
+										<option th:each="area : ${areas}"
+											th:value="${area.areaId}"
+											th:text="${area.nombre}" />
+									</select>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label">Fecha
+									de Asignacion</label>
+								<div class="col-lg-9">
+									<input class="form-control" type="date" id="fechaAsignacion"
+										name="fechaAsignacion" required="required" >
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label"></label>
+								<div class="col-lg-9">
+									<button type="submit"
+										class="col-lg-3 btn btn-outline-success btn-block">
+										<i class="far fa-save"></i> Guardar
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- /form user info -->
+				<a th:href="@{/asignacion/lista}" style="text-decoration: none;"><button
+						class="col-lg-3 btn btn-outline-info">
+						<i class="fas fa-arrow-circle-left"></i> Volver
+					</button></a>
+
+				<div th:if="${error}"
+					class="alert alert-danger alert-dismissible fade show mt-2"
+					role="alert">
+					<p th:text="${error}"></p>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:insert="fragments :: footer"></footer>
+	<div th:insert="fragments :: scripts"></div>
+</body>
+</html>

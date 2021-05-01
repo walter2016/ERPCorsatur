@@ -1,13 +1,16 @@
 package sv.gob.corsatur.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
@@ -19,6 +22,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Area {
+	
+	@OneToMany(mappedBy = "areaId", cascade = CascadeType.ALL)
+    private List<Asignacion> asignaciones;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

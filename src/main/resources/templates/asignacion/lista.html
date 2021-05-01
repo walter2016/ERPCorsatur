@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="fragments :: headerfiles">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	 
 </head>
 <body>
 	<header th:insert="fragments :: nav"></header>
 
 	<div class="container">
-		<h1>Inventario</h1>
+		<h1>Asignacion de Inventario</h1>
 		<br>
-		<div>
+		<div >
 			<table class="table table-striped text-center">
 				<thead>
 					<tr>
@@ -19,28 +19,32 @@
 						<th>Marca</th>
 						<th>Modelo</th>
 						<th>Serie</th>
-						<th>Fecha Adquisicion</th>
+						<th>Empleado Asignacion</th>
+						<th>Area Asignacion</th>
+						<th>Fecha de Asignacion</th>
 						<th>Costo de Adquisicion</th>
 						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Realizar Descarga</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="inventario : ${list}">
-						<td th:text="${inventario.codigoIndividual}"></td>
-						<td th:text="${inventario.tipoId.nombre}"></td>
-						<td th:text="${inventario.marca}"></td>
-						<td th:text="${inventario.modelo}"></td>
-						<td th:text="${inventario.serie}"></td>
-						<td th:text="${inventario.fechaAdquisicion}"></td>
-						<td th:text="${inventario.costo}"></td>
+					<tr th:each="asignacion : ${list}">
+						<td th:text="${asignacion.inventarioId.codigoIndividual}"></td>
+						<td th:text="${asignacion.inventarioId.tipoId.nombre}"></td>
+						<td th:text="${asignacion.inventarioId.marca}"></td>
+						<td th:text="${asignacion.inventarioId.modelo}"></td>
+						<td th:text="${asignacion.inventarioId.serie}"></td>
+						<td th:text="${asignacion.empleadoId.primerNombre} + ' ' + ${asignacion.empleadoId.primerApellido}"></td>
+						<td th:text="${asignacion.areaId.nombre}"></td>
+						<td th:text="${asignacion.fechaAsignacion}"></td>
+						<td th:text="${asignacion.inventarioId.costo}"></td>
 						<td sec:authorize="hasRole('ROLE_ADMIN')"><a
-							th:href="@{'/inventario/editar/' + ${inventario.inventarioId}}"><button
+							th:href="@{'/asignacion/editar/' + ${asignacion.asignacionId}}"><button
 									class="btn btn-outline-warning">
 									<i class="far fa-edit"></i>
 								</button></a></td>
 						<td sec:authorize="hasRole('ROLE_ADMIN')"><a
-							th:href="@{'/inventario/borrar/' + ${inventario.inventarioId}}"><button
+							th:href="@{'/asignacion/borrar/' + ${asignacion.asignacionId}}"><button
 									class="btn btn-outline-danger">
 									<i class="far fa-trash-alt"></i>
 								</button></a></td>
@@ -90,20 +94,10 @@
 							</li>
 						</ul>
 					</nav>
-					<div th:if="${error}"
-						class="alert alert-danger alert-dismissible fade show mt-2"
-						role="alert">
-						<p th:text="${error}"></p>
-						<button type="button" class="close" data-dismiss="alert"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
 				</div>
-				<a sec:authorize="hasRole('ROLE_ADMIN')"
-					th:href="@{/inventario/nuevo}">
+				<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/asignacion/nuevo}">
 					<button class="btn btn-outline-success btn-lg">
-						<i class="fas fa-plus-circle"></i> Ingresar Inventario
+						<i class="fas fa-plus-circle"></i> Realizar Nueva Asignacion
 					</button>
 				</a>
 				<div class="col-md-2"></div>

@@ -25,7 +25,7 @@ public interface IInventarioRepository extends JpaRepository<Inventario, Integer
 	List<Inventario> obtenerActivos();
 
 	@Modifying
-	@Query(value = "UPDATE  inventario SET estado='N', update_date=:updateDate,user_update=:userUpdate  WHERE area_id=:inventarioId", nativeQuery = true)
+	@Query(value = "UPDATE  inventario SET estado='N', update_date=:updateDate,user_update=:userUpdate  WHERE inventario_id=:inventarioId", nativeQuery = true)
 	void eliminarArea(@Param("inventarioId") int inventarioId, @Param("updateDate") Date updateDate,
 			@Param("userUpdate") String userUpdate);
 
@@ -34,5 +34,22 @@ public interface IInventarioRepository extends JpaRepository<Inventario, Integer
 
 	@Query(value = "select max(correlativo) from inventario where tipo_id=:tipoId and hacienda_id=:haciendaId", nativeQuery = true)
 	int buscarCorrelativo(int tipoId, int haciendaId);
+	
+	@Query(value = "SELECT * FROM inventario WHERE estado='A' and asignado='N'", nativeQuery = true)
+	List<Inventario> obtenerNoAsignado();
+	
+	@Modifying
+	@Query(value="UPDATE  inventario SET asignado='S', update_date=:updateDate,user_update=:userUpdate  WHERE inventario_id=:inventarioId" , nativeQuery = true)
+	void actualizarAsignacion(@Param("inventarioId") int inventarioId, @Param("updateDate") Date updateDate,
+			@Param("userUpdate") String userUpdate);
+	
+	
+	@Modifying
+	@Query(value="UPDATE  inventario SET asignado='N', update_date=:updateDate,user_update=:userUpdate  WHERE inventario_id=:inventarioId" , nativeQuery = true)
+	void actualizarDescargo(@Param("inventarioId") int inventarioId, @Param("updateDate") Date updateDate,
+			@Param("userUpdate") String userUpdate);
+	
+	@Query(value = "SELECT asignado FROM inventario WHERE inventario_id=:inventarioId", nativeQuery = true)
+	String estasAsignado(@Param("inventarioId") int inventarioId);
 
 }

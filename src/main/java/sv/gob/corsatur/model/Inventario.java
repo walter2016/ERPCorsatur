@@ -1,7 +1,9 @@
 package sv.gob.corsatur.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
@@ -19,6 +22,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Inventario {
+	
+	@OneToMany(mappedBy = "inventarioId", cascade = CascadeType.ALL)
+    private List<Asignacion> asignaciones;
 	
 	@ManyToOne
 	@JoinColumn(name = "tipo_id", nullable = false )
@@ -114,6 +120,9 @@ public class Inventario {
 	@Column(name = "estado", length = 1)
 	private String estado;
 	
+	@Column(name = "asignado", length = 1)
+	private String asignado;
+	
 	/*  Contructor con todos los parametros  */
 	
 	public Inventario(Tipo tipoId, CodigoHacienda haciendaId, @NotNull int correlativo, @NotNull String codigoIndividual,
@@ -121,7 +130,7 @@ public class Inventario {
 			@NotNull float costo, @NotNull boolean depreciable, @NotNull float valorResidual,
 			@NotNull float valorDepreciar, @NotNull float depreciacionMensual, @NotNull float depreciacionAnual,
 			@NotNull float depreciacionAcumulada, @NotNull float valorLibros, Date createDate, String userCreate,
-			Date updateDate, String userUpdate, String estado) {
+			Date updateDate, String userUpdate, String estado, String asignado) {
 		super();
 		this.tipoId = tipoId;
 		this.haciendaId = haciendaId;
@@ -144,6 +153,7 @@ public class Inventario {
 		this.updateDate = updateDate;
 		this.userUpdate = userUpdate;
 		this.estado = estado;
+		this.asignado=asignado;
 	}
 	
 	
@@ -161,7 +171,7 @@ public class Inventario {
 			@NotNull String codigoIndividual, @NotNull String marca, @NotNull String modelo, @NotNull String serie,
 			Date fechaAdquisicion, @NotNull float costo, @NotNull boolean depreciable, @NotNull float valorResidual,
 			@NotNull float valorDepreciar, @NotNull float depreciacionMensual, @NotNull float depreciacionAnual,
-			@NotNull float depreciacionAcumulada, @NotNull float valorLibros, Date createDate, String userCreate, String estado) {
+			@NotNull float depreciacionAcumulada, @NotNull float valorLibros, Date createDate, String userCreate, String estado, String asignado) {
 		super();
 		this.tipoId = tipoId;
 		this.haciendaId = haciendaId;
@@ -182,6 +192,19 @@ public class Inventario {
 		this.createDate =createDate;
 		this.userCreate = userCreate;
 		this.estado = estado;
+		this.asignado=asignado;
+	}
+	
+	
+
+
+	public String getAsignado() {
+		return asignado;
+	}
+
+
+	public void setAsignado(String asignado) {
+		this.asignado = asignado;
 	}
 
 

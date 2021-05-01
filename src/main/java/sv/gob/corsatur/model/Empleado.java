@@ -1,12 +1,17 @@
 package sv.gob.corsatur.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
@@ -14,36 +19,43 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-
 @Entity
 public class Empleado {
-	
+
+	@OneToOne
+	@JoinColumn(name = "usuario_id", updatable = false, nullable = false)
+	private Usuario usuario;
+
+	@OneToMany(mappedBy = "empleadoId", cascade = CascadeType.ALL)
+	private List<Asignacion> asignaciones;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "empleado_id", unique = true, nullable = false)
 	private int empleadoId;
-	
+
 	@NotNull
-    @Column(name = "primer_nombre",length = 50)
-    private String primerNombre;
-	
-    @Column(name = "segundo_nombre",length = 50)
-    private String segundoNombre;
-    
+	@Column(name = "primer_nombre", length = 50)
+	private String primerNombre;
+
+	@Column(name = "segundo_nombre", length = 50)
+	private String segundoNombre;
+
 	@NotNull
-    @Column(name = "primer_apellido",length = 50)
-    private String primerApellido;
-	
-    @Column(name = "segundo_apellido",length = 50)
-    private String segundoApellido;
-    
-    @Email
-    @Column(name = "email",length = 100)
-    private String email;
-    
-    @Column(name = "create_date", nullable = false)
+	@Column(name = "primer_apellido", length = 50)
+	private String primerApellido;
+
+	@Column(name = "segundo_apellido", length = 50)
+	private String segundoApellido;
+
+	@Email
+	@Column(name = "email", length = 100)
+	private String email;
+
+	@Column(name = "create_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
+
 	@PrePersist
 	public void prePersist() {
 		createDate = new Date();
@@ -54,19 +66,34 @@ public class Empleado {
 
 	@Column(name = "update_date")
 	private Date updateDate;
+
 	@PreUpdate
 	public void preUpdate() {
-		updateDate=new Date();
+		updateDate = new Date();
 	}
-	
+
 	@Column(name = "user_update", length = 100)
 	private String userUpdate;
-	
+
 	@Column(name = "estado", length = 1)
 	private String estado;
 
-	
-	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public List<Asignacion> getAsignaciones() {
+		return asignaciones;
+	}
+
+	public void setAsignaciones(List<Asignacion> asignaciones) {
+		this.asignaciones = asignaciones;
+	}
+
 	public Empleado(@NotNull String primerNombre, @NotNull String primerApellido, @Email String email, Date createDate,
 			String userCreate, String estado) {
 		super();
@@ -76,14 +103,13 @@ public class Empleado {
 		this.createDate = createDate;
 		this.userCreate = userCreate;
 		this.estado = estado;
-		
+
 	}
-	
+
 	public Empleado() {
 		super();
 	}
-	
-	
+
 	public Empleado(@NotNull String primerNombre, String segundoNombre, @NotNull String primerApellido,
 			String segundoApellido, @Email String email, Date createDate, String userCreate, String estado) {
 		super();
@@ -95,78 +121,95 @@ public class Empleado {
 		this.createDate = createDate;
 		this.userCreate = userCreate;
 		this.estado = estado;
-		
+
 	}
 
-	
 	public int getEmpleadoId() {
 		return empleadoId;
 	}
+
 	public void setEmpleadoId(int empleadoId) {
 		this.empleadoId = empleadoId;
 	}
+
 	public String getPrimerNombre() {
 		return primerNombre;
 	}
+
 	public void setPrimerNombre(String primerNombre) {
 		this.primerNombre = primerNombre;
 	}
+
 	public String getSegundoNombre() {
 		return segundoNombre;
 	}
+
 	public void setSegundoNombre(String segundoNombre) {
 		this.segundoNombre = segundoNombre;
 	}
+
 	public String getPrimerApellido() {
 		return primerApellido;
 	}
+
 	public void setPrimerApellido(String primerApellido) {
 		this.primerApellido = primerApellido;
 	}
+
 	public String getSegundoApellido() {
 		return segundoApellido;
 	}
+
 	public void setSegundoApellido(String segundoApellido) {
 		this.segundoApellido = segundoApellido;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public Date getCreateDate() {
 		return createDate;
 	}
+
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+
 	public String getUserCreate() {
 		return userCreate;
 	}
+
 	public void setUserCreate(String userCreate) {
 		this.userCreate = userCreate;
 	}
+
 	public Date getUpdateDate() {
 		return updateDate;
 	}
+
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
+
 	public String getUserUpdate() {
 		return userUpdate;
 	}
+
 	public void setUserUpdate(String userUpdate) {
 		this.userUpdate = userUpdate;
 	}
+
 	public String getEstado() {
 		return estado;
 	}
+
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-	
-	
 
 }

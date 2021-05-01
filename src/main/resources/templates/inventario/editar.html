@@ -13,10 +13,12 @@
 				<!-- form user info -->
 				<div class="card card-outline-secondary">
 					<div class="card-header">
-						<h3 class="mb-0">Informacion de Inventario</h3>
+						<h3 class="mb-0">Actualizar Inventario</h3>
 					</div>
 					<div class="card-body">
-						<form th:action="@{/inventario/guardar}" method="post">
+						<form th:action="@{/inventario/actualizar}" method="post">
+							<input type="hidden" name="inventarioId" id="inventarioId"
+								th:value="${inventario.inventarioId}">
 							<!-- control ataque csrf -->
 							<input type="hidden" th:name="${_csrf.parameterName}"
 								th:value="${_csrf.token}">
@@ -27,9 +29,12 @@
 								</label>
 								<div class="col-lg-9">
 									<select id="haciendaId" class="form-control" name="haciendaId">
+										<option th:value="${inventario.haciendaId.haciendaId}"
+											th:text="${inventario.haciendaId.codigo} + ' - ' +${inventario.haciendaId.nombre}" />
 										<option th:each="codigo : ${codigos}"
 											th:value="${codigo.haciendaId}"
-											th:text="${codigo.codigo} + ' - ' +${codigo.nombre} " />
+											th:text="${codigo.codigo} + ' - ' +${codigo.nombre} "
+											disabled="disabled" />
 
 									</select>
 								</div>
@@ -39,6 +44,8 @@
 									de Inventario </label>
 								<div class="col-lg-9">
 									<select id="tipoId" class="form-control" name="tipoId">
+										<option th:value="${inventario.tipoId.tipoId}"
+											th:text="${inventario.tipoId.codigo} + ' - ' +${inventario.tipoId.nombre}" />
 										<option th:each="tipo : ${tipos}" th:value="${tipo.tipoId}"
 											th:text="${tipo.codigo} + ' - '  +${tipo.nombre}" />
 
@@ -49,21 +56,21 @@
 								<label class="col-lg-3 col-form-label form-control-label">Marca</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="marca" name="marca"
-										required="required" autocomplete="off">
+										required="required" autocomplete="off" th:value="${inventario.marca}" >
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Modelo</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="modelo"
-										name="modelo" required="required" autocomplete="off">
+										name="modelo" required="required" autocomplete="off"  th:value="${inventario.modelo}">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Serie</label>
 								<div class="col-lg-9">
-									<input class="form-control" type="text" id="serie"
-										name="serie" required="required" autocomplete="off">
+									<input class="form-control" type="text" id="serie" name="serie"
+										required="required" autocomplete="off"  th:value="${inventario.serie}">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -71,7 +78,7 @@
 									($)</label>
 								<div class="col-lg-9">
 									<input class="form-control" step="any" type="number" id="costo"
-										name="costo" required="required" autocomplete="off">
+										name="costo" required="required" autocomplete="off"  th:value="${inventario.costo}">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -79,17 +86,17 @@
 									de Adquisicion</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="date" id="fechaAdquisicion"
-										name="fechaAdquisicion" required="required" >
+										name="fechaAdquisicion" required="required"  th:value="${inventario.fechaAdquisicion}">
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-lg-3 col-form-label form-control-label">Es Despreciable </label>
+								<label class="col-lg-3 col-form-label form-control-label">Es
+									Despreciable </label>
 								<div class="col-lg-9">
-									<select id="depreciable" class="form-control" name="depreciable">
-										<option th:value="true"
-											th:text="SI" />
-											<option th:value="false"
-											th:text="NO" />
+									<select id="depreciable" class="form-control"
+										name="depreciable" >
+										<option th:if="${inventario.depreciable==true}" th:value="${inventario.depreciable}" th:text="SI" />
+										<option th:if="${inventario.depreciable==false}" th:value="${inventario.depreciable}" th:text="NO" />
 
 									</select>
 								</div>

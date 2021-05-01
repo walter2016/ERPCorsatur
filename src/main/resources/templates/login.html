@@ -3,7 +3,6 @@
        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="fragments :: headerfiles">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 </head>
 <body>
 <header th:insert="fragments :: nav"></header>
@@ -39,7 +38,7 @@
                     <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" required="required" autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label for="password">Contraseña</label>
+                    <label for="password">ContraseÃ±a</label>
                     <input type="password" class="form-control" id="password" name="password" required="required">
                 </div>
                 <div class="form-group form-check">
@@ -48,14 +47,14 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-outline-success btn-block">
-                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
+                        <i class="fas fa-sign-in-alt"></i> Iniciar SesiÃ³n</button>
                 </div>
             </form>
 
-            <p sec:authorize="isAuthenticated()">Ya has iniciado sesión</p>
+            <p sec:authorize="isAuthenticated()">Ya has iniciado sesiÃ³n</p>
 
             <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-                <p>Credenciales Erróneas</p>
+                <p>Credenciales ErrÃ³neas</p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

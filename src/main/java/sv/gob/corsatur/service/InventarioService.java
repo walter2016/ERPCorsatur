@@ -63,5 +63,22 @@ public class InventarioService {
 	public int obtenerUltimo(int tipoId,int haciendaid) {
 		return inventarioRepository.buscarCorrelativo(tipoId, haciendaid);
 	}
+	
+	public List<Inventario> obtenerNoAsignados(){
+		return inventarioRepository.obtenerNoAsignado();
+	}
+	
+	
+	public void actualizarAsignacion(int inventarioId, Date updateDate, String userUpdate){
+	 inventarioRepository.actualizarAsignacion(inventarioId, updateDate, userUpdate);
+	}
+	
+	public String verificarSiEstaAsignado(int inventarioId) {
+		return inventarioRepository.estasAsignado(inventarioId);
+	}
+	
+	public void actualizarDescargo(int inventarioId, Date updateDate, String userUpdate){
+		 inventarioRepository.actualizarDescargo(inventarioId, updateDate, userUpdate);
+		}
 
 }

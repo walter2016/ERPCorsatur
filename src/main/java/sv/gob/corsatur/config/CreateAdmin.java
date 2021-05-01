@@ -28,7 +28,7 @@ public class CreateAdmin  implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-       /*Usuario usuario = new Usuario();
+      /* Usuario usuario = new Usuario();
         String passwordEncoded = passwordEncoder.encode("admin");
         usuario.setNombreUsuario("admin");
         usuario.setPassword(passwordEncoded);

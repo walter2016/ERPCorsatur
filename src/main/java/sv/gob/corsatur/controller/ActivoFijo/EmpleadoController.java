@@ -62,7 +62,7 @@ public class EmpleadoController {
 		return "/empleado/lista";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	@GetMapping("nuevo")
 	public String nuevo() {
 
