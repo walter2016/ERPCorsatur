@@ -25,10 +25,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import sv.gob.corsatur.model.Categoria;
 import sv.gob.corsatur.model.CodigoHacienda;
+import sv.gob.corsatur.model.Condicion;
 import sv.gob.corsatur.model.Inventario;
 import sv.gob.corsatur.model.Tipo;
 import sv.gob.corsatur.model.Usuario;
 import sv.gob.corsatur.service.CodigoHaciendaService;
+import sv.gob.corsatur.service.CondicionService;
 import sv.gob.corsatur.service.InventarioService;
 import sv.gob.corsatur.service.TipoService;
 import sv.gob.corsatur.service.UsuarioService;
@@ -49,6 +51,9 @@ public class InventarioController {
 
 	@Autowired
 	CodigoHaciendaService haciendaService;
+	
+	@Autowired
+	CondicionService condicionService;
 
 	@GetMapping("/lista")
 	public String listaActivo(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
@@ -70,8 +75,10 @@ public class InventarioController {
 	public String nuevo(Model model) {
 		List<Tipo> tipos = tipoService.obtenerActivos();
 		List<CodigoHacienda> codigos = haciendaService.obtenerActivos();
+		List<Condicion> condiciones = condicionService.obtenerActivos();
 		model.addAttribute("tipos", tipos);
 		model.addAttribute("codigos", codigos);
+		model.addAttribute("condiciones", condiciones);
 		return "inventario/nuevo";
 	}
 
@@ -81,6 +88,8 @@ public class InventarioController {
 			@RequestParam String marca, @RequestParam String modelo, @RequestParam String serie,
 			@RequestParam float costo, @RequestParam String fechaAdquisicion, @RequestParam boolean depreciable,
 			Model model) {
+		
+		System.out.print(depreciable);
 		ModelAndView mv = new ModelAndView();
 		List<Tipo> tipos = tipoService.obtenerActivos();
 		List<CodigoHacienda> codigos = haciendaService.obtenerActivos();
@@ -207,8 +216,10 @@ public class InventarioController {
 		ModelAndView mv = new ModelAndView("/inventario/editar");
 		List<Tipo> tipos = tipoService.obtenerActivos();
 		List<CodigoHacienda> codigos = haciendaService.obtenerActivos();
+		List<Condicion> condiciones = condicionService.obtenerActivos();
 		mv.addObject("tipos", tipos);
 		mv.addObject("codigos", codigos);
+		mv.addObject("condiciones", condiciones);
 		mv.addObject("inventario", inventario);
 		return mv;
 	}

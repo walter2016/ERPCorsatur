@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sv.gob.corsatur.model.Categoria;
 import sv.gob.corsatur.model.Usuario;
 import sv.gob.corsatur.service.CategoriaService;
+import sv.gob.corsatur.service.EmailService;
 import sv.gob.corsatur.service.UsuarioService;
 import sv.gob.corsatur.utils.paginator.PageRender;
 
@@ -32,6 +33,9 @@ public class CategoriaController {
 	
 	@Autowired
 	CategoriaService categoriaService;
+	
+	@Autowired
+	EmailService emailService;
 	
 	
 	@Autowired
@@ -86,6 +90,8 @@ public class CategoriaController {
 		
 		Categoria categoria = new Categoria(codigo,nombre, usuario.getNombreUsuario(), "A");
 		categoriaService.save(categoria);
+		
+		
 		mv.setViewName("redirect:/categoria/lista");
 		return mv;
 	}

@@ -7,14 +7,8 @@
 <title>Corsatur</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- <link rel="icon" type="img/png"
-	th:href="@{https://www.thymeleaf.org/images/thymeleaf.png}"> -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-	crossorigin="anonymous">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js"></script>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+
 </head>
 <body>
 	<div th:fragment="nav">
@@ -80,14 +74,39 @@
 							HelpDesk
 					</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" th:href="@{/asignacion/asignacion}">
-								<i class="far fa-list-alt"></i> Realizar Asignacion
+							<a class="dropdown-item" th:href="@{/solicitudcategoria/lista}">
+								<i class="far fa-list-alt"></i> Lista de Categorias
 							</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" th:href="@{/asignacion/descargo}"> <i
-								class="far fa-list-alt"></i> Realizar Descargo
+							<a class="dropdown-item" th:href="@{/solicitud/lista}"> <i
+								class="far fa-list-alt"></i> Lista Solicitudes
 							</a>
 						</div></li>
+					<li class="nav-item dropdown active"
+						sec:authorize="hasRole('ROLE_ADMIN')"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> <i class="fas fa-toolbox"></i> Admin.
+							Transporte
+					</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" th:href="@{/clasevehiculo/lista}">
+								<i class="far fa-list-alt"></i> Clase de Vehiculo
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/marcavehiculo/lista}"> <i
+								class="far fa-list-alt"></i> Marca de Vehiculo
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/estadovehiculo/lista}"> <i
+								class="far fa-list-alt"></i> Estado de Vehiculo
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/inventariovehiculo/lista}"> <i
+								class="far fa-list-alt"></i> Inventario de Vehiculo
+							</a>
+						</div></li>
+
 				</ul>
 
 				<a th:href="@{/login}" sec:authorize="!isAuthenticated()"><button
@@ -112,22 +131,14 @@
 <footer class="sticky-footer bg-white" th:fragment="footer">
 	<div class="container my-auto">
 		<div class="copyright text-center my-auto">
-			<span>Copyright &copy; Your Website 2021</span>
+			<span>Copyright &copy; Corporacion Salvadoreña de Turismo 2021</span>
 		</div>
 	</div>
 </footer>
 <div th:fragment="scripts">
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-		crossorigin="anonymous"></script>
+	<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+		<script th:src="@{/js/popper.min.js}"></script>
+		<script th:src="@{/js/bootstrap.min.js}" ></script>
+		<script th:src="@{/js/all.min.js}"></script>
 </div>
 </html>
-

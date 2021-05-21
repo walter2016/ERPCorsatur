@@ -21,6 +21,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Empleado {
+	
+	@OneToMany(mappedBy = "empleadoId", cascade = CascadeType.ALL)
+	private List<Solicitud> solicitudes;
 
 	@OneToOne
 	@JoinColumn(name = "usuario_id", updatable = false, nullable = false)

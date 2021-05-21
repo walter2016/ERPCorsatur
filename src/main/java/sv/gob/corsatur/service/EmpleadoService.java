@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sv.gob.corsatur.model.Empleado;
+import sv.gob.corsatur.model.Usuario;
 import sv.gob.corsatur.repository.IEmpleadoRepository;
 
 @Service
@@ -55,5 +56,7 @@ public class EmpleadoService {
 		return empleadoRepository.findEstado(pageable);
 	}
 
-
+	public Empleado obtenerEmpeladoPorUsuario(Usuario usuario) {
+		return empleadoRepository.obtenerEmpleadoPorUsuario(usuario);
+	}
 }

@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import sv.gob.corsatur.model.Empleado;
+import sv.gob.corsatur.model.Usuario;
 @Repository
 public interface IEmpleadoRepository extends JpaRepository<Empleado, Integer>{
 	
@@ -28,5 +29,9 @@ public interface IEmpleadoRepository extends JpaRepository<Empleado, Integer>{
 	    	    countQuery = "SELECT count(*) FROM empleado WHERE estado='A'",
 	    	    nativeQuery = true)
 	    	  Page<Empleado> findEstado(Pageable pageable);
+	  
+	  
+	  @Query(value = "SELECT * FROM empleado WHERE estado='A' and usuario_id=:usuario", nativeQuery=true)
+	  Empleado obtenerEmpleadoPorUsuario(@Param("usuario") Usuario Usuario);
 	 
 }

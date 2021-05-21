@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments :: headerfiles">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<header th:insert="fragments :: nav"></header>
+	<div class="container">
+		<div class="card">
+			<div class="card-header text-center">
+				<b>Detalles del Vehiculo</b>
+			</div>
+			<div class="card-body">
+				<h5 class="card-title"
+					th:text="'Placa: ' + ${inventarioVehiculo.placa}"></h5>
+				<h5 class="card-title"
+					th:text="'Asignacion: ' + ${inventarioVehiculo.asignacion}"></h5>
+				<h5 class="card-title"
+					th:text="'Marca: ' + ${inventarioVehiculo.marcaVehiculoId.marca}"></h5>
+				<h5 class="card-title"
+					th:text="'Modelo: ' + ${inventarioVehiculo.modelo}"></h5>
+				<h5 class="card-title"
+					th:text="'Año: ' + ${inventarioVehiculo.anho}"></h5>
+				<h5 class="card-title"
+					th:text="'Clase: ' + ${inventarioVehiculo.claseVehiculoId.clase}"></h5>
+				<h5 class="card-title"
+					th:text="'Descripcion: ' + ${inventarioVehiculo.descripcion}"></h5>
+				<h5 class="card-title"
+					th:text="'Numero de Motor: ' + ${inventarioVehiculo.numeroMotor}"></h5>
+
+				<h5 class="card-title"
+					th:text="'Numero de Chasis: ' + ${inventarioVehiculo.numeroChasis}"></h5>
+
+				<h5 class="card-title"
+					th:text="'Numero VIN: ' + ${inventarioVehiculo.numeroVin}"></h5>
+
+
+				<a th:href="@{/inventariovehiculo/lista}"
+					class="btn btn-outline-info"> <i
+					class="fas fa-arrow-circle-left"></i> Volver
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+	<footer th:insert="fragments :: footer"></footer>
+	<div th:insert="fragments :: scripts"></div>
+</body>
+</html>
