@@ -25,6 +25,10 @@ public interface IInventarioVehiculoRepository extends JpaRepository<InventarioV
 	 @Query(value = "SELECT * FROM inventario_vehiculo WHERE estado='A';", nativeQuery=true)
 	    List<InventarioVehiculo> obtenerActivos();
 	    
+	 
+	 @Query(value = "SELECT * FROM inventario_vehiculo WHERE estado='A' and asignado='N' and aplica=1 and clase_vehiculo_id=:claseVehiculoId", nativeQuery=true)
+	    List<InventarioVehiculo> obtenerVehiculoParaAsignar(@Param("claseVehiculoId") int claseVehiculoId);
+	 
 	    @Modifying
 	    @Query(value = "UPDATE  inventario_vehiculo SET estado='N', update_date=:updateDate,user_update=:userUpdate  WHERE inventario_vehiculo_id=:inventarioVehiculoId", nativeQuery=true)
 	    void eliminarInventarioVehiculo(@Param("inventarioVehiculoId") int inventarioVehiculoId, @Param("updateDate") Date updateDate, @Param("userUpdate") String userUpdate);

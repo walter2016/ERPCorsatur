@@ -8,7 +8,7 @@
 	<header th:insert="fragments :: nav"></header>
 
 	<div class="container">
-		<h1>Asignacion de Inventario</h1>
+		<h1>Solicitudes de Soporte</h1>
 		<br>
 		<div >
 			<table class="table table-striped text-center">
@@ -16,9 +16,9 @@
 					<tr>
 						<th>Numero de Solicitud</th>
 						<th scope="col">Descripción de la Solicitud</th>
-						<th scope="col">Categoria de la Solicitud</th>
+						<th scope="col">Categoría de la Solicitud</th>
 						<th>Estado Solicitud</th>
-						<th>Resolucion de Solicitud</th>
+						<th>Resolución de Solicitud</th>
 						<th>Empleado Solicitante</th>
 						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
 						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Realizar Descarga</th>

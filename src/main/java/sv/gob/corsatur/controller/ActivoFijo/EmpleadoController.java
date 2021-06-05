@@ -1,7 +1,9 @@
 package sv.gob.corsatur.controller.ActivoFijo;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import sv.gob.corsatur.enums.RolNombre;
 import sv.gob.corsatur.model.Empleado;
+import sv.gob.corsatur.model.Rol;
 import sv.gob.corsatur.model.Usuario;
 import sv.gob.corsatur.service.EmpleadoService;
+import sv.gob.corsatur.service.RolService;
 import sv.gob.corsatur.service.UsuarioService;
 import sv.gob.corsatur.utils.paginator.PageRender;
 
@@ -36,6 +42,12 @@ public class EmpleadoController {
 
 	@Autowired
 	UsuarioService usuarioService;
+	
+	@Autowired
+	RolService rolService;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/lista2")
@@ -71,12 +83,18 @@ public class EmpleadoController {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/guardar")
-	public ModelAndView crear(@RequestParam String primerNombre, @RequestParam String segundoNombre,
+	public ModelAndView crear(@RequestParam String usuario,@RequestParam String primerNombre, @RequestParam String segundoNombre,
 			@RequestParam String primerApellido, @RequestParam String segundoApellido, @RequestParam String email) {
 		ModelAndView mv = new ModelAndView();
 		if (StringUtils.isBlank(primerNombre)) {
 			mv.setViewName("empleado/nuevo");
 			mv.addObject("error", "El Primer Nombre no puede estar vacio");
+
+			return mv;
+		}
+		if (StringUtils.isBlank(usuario)) {
+			mv.setViewName("empleado/nuevo");
+			mv.addObject("error", "Usuario no puede estar vacio");
 
 			return mv;
 		}
@@ -92,13 +110,25 @@ public class EmpleadoController {
 
 			return mv;
 		}
+		
+		Usuario usuario1 = new Usuario();
+		usuario1.setNombreUsuario(usuario);
+		usuario1.setPassword(passwordEncoder.encode(usuario));
+		
+		Rol rolUser = rolService.getByRolNombre(RolNombre.ROLE_USER).get();
+		Set<Rol> roles = new HashSet<>();
+		roles.add(rolUser);
+		usuario1.setRoles(roles);
+		usuarioService.save(usuario1);
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
+		Usuario user = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
 
 		Empleado empleado = new Empleado(primerNombre, segundoNombre, primerApellido, segundoApellido, email,
-				new Date(), usuario.getNombreUsuario(), "A");
-
+				new Date(), user.getNombreUsuario(), "A");
+		
+		empleado.setUsuario(usuario1);
 		empleadoService.save(empleado);
 		mv.setViewName("redirect:/empleado/lista");
 		return mv;
@@ -118,7 +148,7 @@ public class EmpleadoController {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/actualizar")
-	public ModelAndView actualizar(@RequestParam int empleadoId, @RequestParam String primerNombre,
+	public ModelAndView actualizar(@RequestParam String usuario,@RequestParam int empleadoId, @RequestParam String primerNombre,
 			@RequestParam String segundoNombre, @RequestParam String primerApellido,
 			@RequestParam String segundoApellido, @RequestParam String email) {
 		if (!empleadoService.existsById(empleadoId))
@@ -130,6 +160,13 @@ public class EmpleadoController {
 			mv.setViewName("empleado/editar");
 			mv.addObject("empleado", empleado);
 			mv.addObject("error", "el Primer Nombre no puede estar vacío");
+
+			return mv;
+		}
+		if (StringUtils.isBlank(usuario)) {
+			mv.setViewName("empleado/editar");
+			mv.addObject("empleado", empleado);
+			mv.addObject("error", "El Usuario no puede estar vacío");
 
 			return mv;
 		}
@@ -156,8 +193,13 @@ public class EmpleadoController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
-		empleado.setUserUpdate(usuario.getNombreUsuario());
+		Usuario usuario1 = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
+		
+		Usuario user = usuarioService.getById(empleado.getUsuario().getId()).get();
+		
+		user.setNombreUsuario(usuario);
+		usuarioService.save(user);
+		empleado.setUserUpdate(usuario1.getNombreUsuario());
 		empleadoService.save(empleado);
 		return new ModelAndView("redirect:/empleado/lista");
 	}

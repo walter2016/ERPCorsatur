@@ -33,8 +33,8 @@ public class GerenciaService {
 		return gerenciaRepository.existsByNombre(gerencia);
 	}
 
-	public Optional<Gerencia> getByMarca(String gerencia) {
-		return gerenciaRepository.findByNombre(gerencia);
+	public Optional<Gerencia> getByNombre(String nombre) {
+		return gerenciaRepository.findByNombre(nombre);
 	}
 	
 	public boolean existsById(int id) {

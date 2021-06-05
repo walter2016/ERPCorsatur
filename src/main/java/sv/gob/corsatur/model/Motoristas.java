@@ -61,4 +61,78 @@ public class Motoristas {
 	@Column(name = "estado", length = 1)
 	private String estado;
 
+	public List<AsignacionTransporte> getAsignaciones() {
+		return asignaciones;
+	}
+
+	public void setAsignaciones(List<AsignacionTransporte> asignaciones) {
+		this.asignaciones = asignaciones;
+	}
+
+	public int getMotoristaId() {
+		return motoristaId;
+	}
+
+	public void setMotoristaId(int motoristaId) {
+		this.motoristaId = motoristaId;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(String disponible) {
+		this.disponible = disponible;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getUserCreate() {
+		return userCreate;
+	}
+
+	public void setUserCreate(String userCreate) {
+		this.userCreate = userCreate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getUserUpdate() {
+		return userUpdate;
+	}
+
+	public void setUserUpdate(String userUpdate) {
+		this.userUpdate = userUpdate;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
+	
+
 }

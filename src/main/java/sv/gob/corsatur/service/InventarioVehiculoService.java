@@ -52,6 +52,10 @@ public class InventarioVehiculoService {
 		return inventarioVehiculoRepository.obtenerActivos();
 	}
 	
+	public List<InventarioVehiculo> obtenerAvehiculoParaAsignar(int claseVehiculoId){
+		return inventarioVehiculoRepository.obtenerVehiculoParaAsignar(claseVehiculoId);
+	}
+	
 	public void eliminar(int inventarioVehiculoId, Date updateDate, String userUpdate) {
 		inventarioVehiculoRepository.eliminarInventarioVehiculo(inventarioVehiculoId, updateDate, userUpdate);
 	}

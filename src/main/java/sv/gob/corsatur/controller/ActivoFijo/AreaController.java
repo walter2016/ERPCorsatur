@@ -89,7 +89,6 @@ public class AreaController {
 			return new ModelAndView("redirect:/area/lista");
 		Area area = areaService.getOne(id).get();
 
-		System.out.println(area.toString());
 		ModelAndView mv = new ModelAndView("/area/editar");
 		mv.addObject("area", area);
 		return mv;

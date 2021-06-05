@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="fragments :: headerfiles">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
 	<header th:insert="fragments :: nav"></header>
@@ -13,7 +14,7 @@
 				<!-- form user info -->
 				<div class="card card-outline-secondary">
 					<div class="card-header">
-						<h3 class="mb-0">Asignacion de Inventario</h3>
+						<h3 class="mb-0">Asignación de Inventario</h3>
 					</div>
 					<div class="card-body">
 						<form th:action="@{/asignacion/guardar}" method="post">
@@ -23,7 +24,7 @@
 							<!-- fin control ataque csrf -->
 
 							<div class="form-group row">
-								<label class="col-lg-3 col-form-label form-control-label">Codigo
+								<label class="col-lg-3 col-form-label form-control-label">Código
 									de Inventario </label>
 								<div class="col-lg-9">
 									<select id="inventarioId" class="form-control"
@@ -48,7 +49,7 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-lg-3 col-form-label form-control-label">Area de Asignacion
+								<label class="col-lg-3 col-form-label form-control-label">Área de Asignación
 								</label>
 								<div class="col-lg-9">
 									<select id="areaId" class="form-control" name="areaId">
@@ -60,7 +61,7 @@
 							</div>
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Fecha
-									de Asignacion</label>
+									de Asignación</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="date" id="fechaAsignacion"
 										name="fechaAsignacion" required="required" >
@@ -68,7 +69,7 @@
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-3 col-form-label form-control-label"></label>
+								<label class="col-lg-3 col-form-label control-label"></label>
 								<div class="col-lg-9">
 									<button type="submit"
 										class="col-lg-3 btn btn-outline-success btn-block">
