@@ -53,13 +53,13 @@ public class GerenciaController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@GetMapping("nuevo")
 	public String nuevo() {
 		return "gerencia/nuevo";
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String nombre) {
 		ModelAndView mv = new ModelAndView();
@@ -86,7 +86,7 @@ public class GerenciaController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@GetMapping("/editar/{gerenciaId}")
 	public ModelAndView editar(@PathVariable("gerenciaId") int id) {
 		if (!gerenciaservice.existsById(id))
@@ -97,7 +97,7 @@ public class GerenciaController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam int gerenciaId, @RequestParam String nombre) {
 		if (!gerenciaservice.existsById(gerenciaId))
@@ -126,7 +126,7 @@ public class GerenciaController {
 		return new ModelAndView("redirect:/gerencia/lista");
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@GetMapping("/borrar/{gerenciaId}")
 	public ModelAndView borrar(@PathVariable("gerenciaId") int gerenciaId) {
 		if (gerenciaservice.existsById(gerenciaId)) {

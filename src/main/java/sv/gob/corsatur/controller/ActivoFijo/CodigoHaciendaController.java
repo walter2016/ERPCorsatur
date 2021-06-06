@@ -54,13 +54,13 @@ public class CodigoHaciendaController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("nuevo")
 	public String nuevo() {
 		return "hacienda/nuevo";
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String codigo,@RequestParam String nombre) {
 		ModelAndView mv = new ModelAndView();
@@ -91,7 +91,7 @@ public class CodigoHaciendaController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/editar/{haciendaId}")
 	public ModelAndView editar(@PathVariable("haciendaId") int id) {
 		if (!codigoHaciendaService.existsById(id))
@@ -103,7 +103,7 @@ public class CodigoHaciendaController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam int haciendaId, @RequestParam String codigo, @RequestParam String nombre) {
 		if (!codigoHaciendaService.existsById(haciendaId))
@@ -140,7 +140,7 @@ public class CodigoHaciendaController {
 		return new ModelAndView("redirect:/hacienda/lista");
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/borrar/{haciendaId}")
 	public ModelAndView borrar(@PathVariable("haciendaId") int haciendaId) {
 		if (codigoHaciendaService.existsById(haciendaId)) {

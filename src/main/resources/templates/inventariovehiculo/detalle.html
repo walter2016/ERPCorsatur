@@ -34,8 +34,28 @@
 
 				<h5 class="card-title"
 					th:text="'Numero VIN: ' + ${inventarioVehiculo.numeroVin}"></h5>
+				<h5 class="card-title"
+					th:text="'Tipo / Ass: ' + ${inventarioVehiculo.tipoAsientos}"></h5>
+				<h5 class="card-title"
+					th:text="'Color: ' + ${inventarioVehiculo.color}"></h5>
 
+				<h5 class="card-title"
+					th:text="'Descripción: ' + ${inventarioVehiculo.descripcion}"></h5>
 
+				<h5 class="card-title"
+					th:text="'Tracción: ' + ${inventarioVehiculo.traccion}"></h5>
+
+				<h5 class="card-title"
+					th:text="'Capacidad: ' + ${inventarioVehiculo.capacidad}"></h5>
+
+				<h5 class="card-title"
+					th:text="'Combustible: ' + ${inventarioVehiculo.combustible}"></h5>
+
+				<h5 class="card-title"
+					th:text="'Estado: ' + ${inventarioVehiculo.estadoVehiculoId.estVehiculo}"></h5>
+
+				<h5 class="card-title"
+					th:text="'Utilizado Por: ' + ${inventarioVehiculo.utilizadoPor}"></h5>
 				<a th:href="@{/inventariovehiculo/lista}"
 					class="btn btn-outline-info"> <i
 					class="fas fa-arrow-circle-left"></i> Volver

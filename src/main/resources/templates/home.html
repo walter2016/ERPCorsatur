@@ -2,28 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="fragments :: headerfiles">
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
 	<header th:insert="fragments :: nav"></header>
 	<div class="container">
 		<div class="jumbotron">
 			<h1 class="display-4" sec:authorize="!isAuthenticated()">Debes
-				iniciar sesi�n</h1>
+				iniciar sesión</h1>
 			<h1 class="display-4" sec:authorize="isAuthenticated()">
-				Hola <span sec:authentication="name"></span>
+				Bienvenido <span sec:authentication="name"></span>
 			</h1>
-			<p class="lead">This is a simple hero unit, a simple
-				jumbotron-style component for calling extra attention to featured
-				content or information.</p>
+			<p class="lead">Sistema de control interno de la Corporacion
+				Salvadoreña de Turismo de El Salvador.</p>
 			<hr class="my-4">
-			<p>It uses utility classes for typography and spacing to space
-				content out within the larger container.</p>
-			<p class="lead">
-				<a class="btn btn-primary btn-lg" href="#" role="button">Learn
-					more</a>
-			</p>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<h2>CORSATUR</h2>
+						<p>
+							CORPORACIÓN SALVADOREÑA DE TURISMO <br>Edificio Century
+							Tower 10º Nivel, Boulevard Sergio Vieira De Mello #243,<br>
+							Colonia San Benito, San Salvador, El Salvador.<br> Tel.
+							(503) 2241-3200
+						</p>
+						<p class="lead">
+							<a class="btn btn-primary btn-lg"
+								href="https://www.corsatur.gob.sv/" target="_blank"
+								role="button">Acceder al Sitio</a>
+						</p>
+					</div>
+					<div class="col-md-4">
+						<h2>Portal de Transparencia</h2>
+						<p>
+							Prolongación Avenida Alberto Masferrer y calle al Volcán No. 88,
+							edificio Oca Chang, segundo nivel, <br>San Salvador, El
+							Salvador..
+						</p>
+						<p class="lead">
+							<a class="btn btn-primary btn-lg"
+								href="https://www.transparencia.gob.sv/institutions/corsatur"
+								target="_blank" role="button">Acceder al Sitio</a>
+						</p>
+					</div>
+					<div class="col-md-4">
+						<h2>Ministerio de Turismo</h2>
+						<p>Oficina Central del Ministerio de Turismo<br> República de El
+							Salvador, C. A <br>Edificio Century Tower 11º Nivel, Boulevard Sergio
+							Vieira De Mello #243, Colonia San Benito, San Salvador, El
+							Salvador. <br>Tel. (503) 2241-3200.</p>
+						<p class="lead">
+							<a class="btn btn-primary btn-lg" href="http://www.mitur.gob.sv/"
+								target="_blank" role="button">Acceder al Sitio</a>
+						</p>
+					</div>
+				</div>
+			</div>
 		</div>
+
 	</div>
 </body>
 <footer th:insert="fragments :: footer"></footer>

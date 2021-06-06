@@ -59,7 +59,7 @@ public class TipoController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("nuevo")
 	public String nuevo(Model model) {
 		List<Categoria> categorias = categoriaService.obtenerActivos();
@@ -67,7 +67,7 @@ public class TipoController {
 		return "tipo/nuevo";
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String codigo,@RequestParam String nombre,@RequestParam Integer categoriaId, Model model) {
 		ModelAndView mv = new ModelAndView();
@@ -104,7 +104,7 @@ public class TipoController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/editar/{tipoId}")
 	public ModelAndView editar(@PathVariable("tipoId") int id) {
 		if (!tipoService.existsById(id))
@@ -117,7 +117,7 @@ public class TipoController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam int tipoId, @RequestParam String codigo, @RequestParam String nombre, @RequestParam Integer categoriaId) {
 		if (!tipoService.existsById(tipoId))
@@ -158,7 +158,7 @@ public class TipoController {
 		return new ModelAndView("redirect:/tipo/lista");
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/borrar/{tipoId}")
 	public ModelAndView borrar(@PathVariable("tipoId") int tipoId) {
 		if (tipoService.existsById(tipoId)) {

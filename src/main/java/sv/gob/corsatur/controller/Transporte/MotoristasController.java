@@ -52,13 +52,13 @@ public class MotoristasController {
 		return "/motoristas/lista";
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@GetMapping("nuevo")
 	public String nuevo() {
 		return "motoristas/nuevo";
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String nombre) {
 		ModelAndView mv = new ModelAndView();
@@ -87,7 +87,7 @@ public class MotoristasController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@GetMapping("/editar/{motoristaId}")
 	public ModelAndView editar(@PathVariable("motoristaId") int id) {
 		if (!motoristaService.existsById(id))
@@ -98,7 +98,7 @@ public class MotoristasController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam int motoristaId, @RequestParam String nombre) {
 		if (!motoristaService.existsById(motoristaId))
@@ -128,7 +128,7 @@ public class MotoristasController {
 		return new ModelAndView("redirect:/motoristas/lista");
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@GetMapping("/borrar/{motoristaId}")
 	public ModelAndView borrar(@PathVariable("motoristaId") int motoristaId) {
 		if (motoristaService.existsById(motoristaId)) {

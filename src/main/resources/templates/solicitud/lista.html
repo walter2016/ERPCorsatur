@@ -20,8 +20,8 @@
 						<th>Estado Solicitud</th>
 						<th>Resolución de Solicitud</th>
 						<th>Empleado Solicitante</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Realizar Descarga</th>
+						<th scope="col" sec:authorize="hasRole('ROLE_HELP') || hasRole('ROLE_ADMIN')">Editar</th>
+						<th scope="col" sec:authorize="hasRole('ROLE_HELP') || hasRole('ROLE_ADMIN')">Realizar Descarga</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -32,12 +32,12 @@
 						<td th:text="${solicitud.estadoSolicitud}"></td>
 						<td th:text="${solicitud.respuestaSolicitud}"></td>
 						<td th:text="${solicitud.empleadoId.primerNombre} + ' ' + ${solicitud.empleadoId.primerApellido}"></td>
-						<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+						<td sec:authorize="hasRole('ROLE_HELP') || hasRole('ROLE_ADMIN')"><a
 							th:href="@{'/solicitud/editar/' + ${solicitud.solicitudId}}"><button
 									class="btn btn-outline-warning">
 									<i class="far fa-edit"></i>
 								</button></a></td>
-						<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+						<td sec:authorize="hasRole('ROLE_HELP') || hasRole('ROLE_ADMIN')"><a
 							th:href="@{'/solicitud/borrar/' + ${solicitud.solicitudId}}"><button
 									class="btn btn-outline-danger">
 									<i class="far fa-trash-alt"></i>
@@ -89,7 +89,7 @@
 						</ul>
 					</nav>
 				</div>
-				<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/solicitud/nuevo}">
+				<a sec:authorize="hasRole('ROLE_HELP') || hasRole('ROLE_ADMIN')" th:href="@{/solicitud/nuevo}">
 					<button class="btn btn-outline-success btn-lg">
 						<i class="fas fa-plus-circle"></i> Ingresar Solicitud
 					</button>

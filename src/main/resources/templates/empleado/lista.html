@@ -16,8 +16,13 @@
 					<th scope="col">Apellido</th>
 					<th scope="col">Correo</th>
 					<th scope="col">Nombre de usuario</th>
-					<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
-					<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+					<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Resetear
+						Contraseña</th>
+					<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Roles</th>
+					<th scope="col"
+						sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Editar</th>
+					<th scope="col"
+						sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Eliminar</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,11 +34,21 @@
 					<td th:text="${empleado.email}"></td>
 					<td th:text="${empleado.usuario.nombreUsuario}"></td>
 					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+						th:href="@{'/empleado/reset/' + ${empleado.empleadoId}}"><button
+								class="btn btn-outline-primary">
+								<i class="fas fa-sync-alt"></i>
+							</button></a></td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+						th:href="@{'/empleado/rol/' + ${empleado.empleadoId}}"><button
+								class="btn btn-outline-primary">
+								<i class="fas fa-user-tag"></i>
+							</button></a></td>
+					<td sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"><a
 						th:href="@{'/empleado/editar/' + ${empleado.empleadoId}}"><button
 								class="btn btn-outline-warning">
 								<i class="far fa-edit"></i>
 							</button></a></td>
-					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+					<td sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"><a
 						th:href="@{'/empleado/borrar/' + ${empleado.empleadoId}}"><button
 								class="btn btn-outline-danger">
 								<i class="far fa-trash-alt"></i>
@@ -85,7 +100,8 @@
 					</ul>
 				</nav>
 			</div>
-			<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/empleado/nuevo}">
+			<a sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"
+				th:href="@{/empleado/nuevo}">
 				<button class="btn btn-outline-success btn-lg">
 					<i class="fas fa-plus-circle"></i> Nuevo Empleado
 				</button>

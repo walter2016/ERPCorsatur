@@ -56,13 +56,13 @@ public class SolicitudCategoriaController {
 		return "/solicitudcategoria/lista";
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('HELP')")
 	@GetMapping("nuevo")
 	public String nuevo() {
 		return "solicitudcategoria/nuevo";
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('HELP')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String categoria) {
 		ModelAndView mv = new ModelAndView();
@@ -90,7 +90,7 @@ public class SolicitudCategoriaController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('HELP')")
 	@GetMapping("/editar/{solicCateId}")
 	public ModelAndView editar(@PathVariable("solicCateId") int id) {
 		if (!solicitudCategoriaService.existsById(id))
@@ -101,7 +101,7 @@ public class SolicitudCategoriaController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('HELP')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam int solicCateId, @RequestParam String categoria) {
 		if (!solicitudCategoriaService.existsById(solicCateId))
@@ -131,7 +131,7 @@ public class SolicitudCategoriaController {
 		return new ModelAndView("redirect:/solicitudcategoria/lista");
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('HELP')")
 	@GetMapping("/borrar/{solicCateId}")
 	public ModelAndView borrar(@PathVariable("solicCateId") int solicCateId) {
 		if (solicitudCategoriaService.existsById(solicCateId)) {

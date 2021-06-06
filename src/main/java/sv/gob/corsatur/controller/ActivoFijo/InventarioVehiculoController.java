@@ -67,6 +67,7 @@ public class InventarioVehiculoController {
 		return "/inventariovehiculo/lista";
 	}
 
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/detalle/{id}")
 	public ModelAndView detalle(@PathVariable("id") int id) {
 		if (!inventarioVehiculoService.existsById(id))
@@ -77,7 +78,7 @@ public class InventarioVehiculoController {
 		return mv;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("nuevo")
 	public String nuevo(Model model) {
 		List<MarcaVehiculo> marcaVehiculo = marcaVehiculoService.obtenerActivos();
@@ -90,7 +91,7 @@ public class InventarioVehiculoController {
 		return "inventariovehiculo/nuevo";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String placa, @RequestParam String asignacion, @RequestParam String modelo,
 			@RequestParam String anho, @RequestParam String numeroMotor, @RequestParam String numeroChasis,
@@ -263,7 +264,7 @@ public class InventarioVehiculoController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/borrar/{inventarioVehiculoId}")
 	public ModelAndView borrar(@PathVariable("inventarioVehiculoId") int inventarioVehiculoId) {
 		if (inventarioVehiculoService.existsById(inventarioVehiculoId)) {
@@ -274,6 +275,191 @@ public class InventarioVehiculoController {
 			return new ModelAndView("redirect:/inventariovehiculo/lista");
 		}
 		return null;
+	}
+	
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
+	@GetMapping("/editar/{inventarioVehiculoId}")
+	public ModelAndView editar(@PathVariable("inventarioVehiculoId") int id) {
+		if (!marcaVehiculoService.existsById(id))
+			return new ModelAndView("redirect:/inventariovehiculo/lista");
+		InventarioVehiculo inventarioVehiculo = inventarioVehiculoService.getOne(id).get();
+		List<MarcaVehiculo> marcaVehiculo = marcaVehiculoService.obtenerActivos();
+		List<EstadoVehiculo> estadoVehiculo = estadoVehiculoService.obtenerActivos();
+		List<ClaseVehiculo> claseVehiculo = claseVehiculoService.obtenerActivos();
+		ModelAndView mv = new ModelAndView("/inventariovehiculo/editar");
+		mv.addObject("inventarioVehiculo", inventarioVehiculo);
+		mv.addObject("marcaVehiculo",marcaVehiculo);
+		mv.addObject("estadoVehiculo",estadoVehiculo);
+		mv.addObject("claseVehiculo",claseVehiculo);
+		return mv;
+	}
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
+	@PostMapping("/actualizar")
+	public ModelAndView actualizar(@RequestParam int inventarioVehiculoId,@RequestParam String placa, @RequestParam String asignacion, @RequestParam String modelo,
+			@RequestParam String anho, @RequestParam String numeroMotor, @RequestParam String numeroChasis,
+			@RequestParam String tipoAsientos, @RequestParam String color, @RequestParam String descripcion,
+			@RequestParam String numeroVin, @RequestParam String capacidad, @RequestParam String combustible,
+			@RequestParam String traccion, @RequestParam String utilizadoPor, @RequestParam int marcaVehiculoId,
+			@RequestParam int claseVehiculoId, @RequestParam int estadoVehiculoId, Model model) {
+		if (!inventarioVehiculoService.existsById(inventarioVehiculoId))
+			return new ModelAndView("redirect:/inventariovehiculo/lista");
+		ModelAndView mv = new ModelAndView();
+		InventarioVehiculo inventarioVehiculo = inventarioVehiculoService.getOne(inventarioVehiculoId).get();
+
+		List<MarcaVehiculo> marcaVehiculo = marcaVehiculoService.obtenerActivos();
+		List<EstadoVehiculo> estadoVehiculo = estadoVehiculoService.obtenerActivos();
+		List<ClaseVehiculo> claseVehiculo = claseVehiculoService.obtenerActivos();
+
+		if (StringUtils.isBlank(placa)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "La Placa no puede estar vacia");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(asignacion)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "La Asignacion no puede estar vacia");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(modelo)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "El modelo no puede estar vacio");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(anho)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "El Año no puede estar vacio");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(numeroMotor)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "El Numero de Motor no puede estar vacio");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(numeroChasis)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "El Numero de Chasis no puede estar vacio");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(numeroVin)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "El Numero de Vin no puede estar vacio en su defecto coloque S/N");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(tipoAsientos)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "El tipo de Asientos no puede estar vacio");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(descripcion)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "La descripcion no puede estar vacia");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(color)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "El color no puede estar vacio");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(capacidad)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "La capacidad no puede estar vacia");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (StringUtils.isBlank(combustible)) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "el Combustible no puede estar vacio");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+		if (inventarioVehiculoService.existsByPlaca(placa) && inventarioVehiculoService.getByPlaca(placa).get().getInventarioVehiculoId() != inventarioVehiculoId) {
+			mv.setViewName("inventariovehiculo/editar");
+			mv.addObject("error", "Esa Placa ya Existe");
+			model.addAttribute("marcaVehiculo", marcaVehiculo);
+			model.addAttribute("estadoVehiculo", estadoVehiculo);
+			model.addAttribute("claseVehiculo", claseVehiculo);
+			model.addAttribute("inventarioVehiculo", inventarioVehiculo);
+			return mv;
+		}
+
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
+
+		MarcaVehiculo marVehiculo = marcaVehiculoService.getOne(marcaVehiculoId).get();
+		EstadoVehiculo estVehiculo = estadoVehiculoService.getOne(estadoVehiculoId).get();
+		ClaseVehiculo claVehiculo = claseVehiculoService.getOne(claseVehiculoId).get();
+
+		inventarioVehiculo.setPlaca(placa);
+		inventarioVehiculo.setAsignacion(asignacion);
+		inventarioVehiculo.setMarcaVehiculoId(marVehiculo);
+		inventarioVehiculo.setModelo(modelo);
+		inventarioVehiculo.setAnho(anho);
+		inventarioVehiculo.setClaseVehiculoId(claVehiculo);
+		inventarioVehiculo.setNumeroMotor(numeroMotor);
+		inventarioVehiculo.setNumeroChasis(numeroChasis);
+		inventarioVehiculo.setNumeroVin(numeroVin);
+		inventarioVehiculo.setTipoAsientos(tipoAsientos);
+		inventarioVehiculo.setColor(color);
+		inventarioVehiculo.setDescripcion(descripcion);
+		inventarioVehiculo.setTraccion(traccion);
+		inventarioVehiculo.setCapacidad(capacidad);
+		inventarioVehiculo.setCombustible(combustible);
+		inventarioVehiculo.setEstadoVehiculoId(estVehiculo);
+		inventarioVehiculo.setUtilizadoPor(utilizadoPor);
+
+		inventarioVehiculo.setUserUpdate(usuario.getNombreUsuario());
+		inventarioVehiculoService.save(inventarioVehiculo);
+		return new ModelAndView("redirect:/inventariovehiculo/lista");
 	}
 	
 

@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import sv.gob.corsatur.model.Configuracion;
 import sv.gob.corsatur.model.Empleado;
 import sv.gob.corsatur.model.Solicitud;
 import sv.gob.corsatur.model.SolicitudCategoria;
 import sv.gob.corsatur.model.Usuario;
+import sv.gob.corsatur.service.ConfiguracionService;
 import sv.gob.corsatur.service.EmailService;
 import sv.gob.corsatur.service.EmpleadoService;
 import sv.gob.corsatur.service.SolicitudCategoriaService;
@@ -39,6 +41,9 @@ public class SolicitudController {
 	@Autowired
 	SolicitudService solicitudService;
 
+	@Autowired
+	ConfiguracionService confiService;
+	
 	@Autowired
 	UsuarioService usuarioService;
 
@@ -65,7 +70,7 @@ public class SolicitudController {
 		return "/solicitud/lista";
 	}
 
-	// @PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('HELP')")
 	@GetMapping("nuevo")
 	public String nuevo(Model model) {
 		List<Empleado> empleado = empleadoService.obtenerActivos();
@@ -75,7 +80,7 @@ public class SolicitudController {
 		return "solicitud/nuevo";
 	}
 
-	// @PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('HELP')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String descripcion, @RequestParam Integer solicCateId, Model model) {
 		ModelAndView mv = new ModelAndView();
@@ -132,15 +137,17 @@ public class SolicitudController {
 		// subjet del correo
 
 		String subjet = "Nuevo Ticket " + " Con Numero " + corr + " de la categoria " + solcicategoria.getCategoria();
+	
+		Configuracion configCorreo = confiService.getByCodigoClasificacion("CORREO").get();
 
-		emailService.sendEmail("qr11007@ues.edu.sv", subjet, cuerpo, empleado.getEmail());
+		emailService.sendEmail(configCorreo.getValor(), subjet, cuerpo, empleado.getEmail());
 
 		mv.setViewName("redirect:/solicitud/lista");
 		return mv;
 
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('HELP')")
 	@GetMapping("/editar/{solicitudId}")
 	public ModelAndView editar(@PathVariable("solicitudId") int id) {
 		if (!solicitudService.existsById(id))
@@ -153,7 +160,7 @@ public class SolicitudController {
 		return mv;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('HELP')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam int solicitudId, @RequestParam String respuestaSolicitud) {
 		if (!solicitudService.existsById(solicitudId))

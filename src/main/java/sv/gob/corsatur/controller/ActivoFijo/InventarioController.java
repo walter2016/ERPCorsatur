@@ -70,7 +70,7 @@ public class InventarioController {
 		return "/inventario/lista";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("nuevo")
 	public String nuevo(Model model) {
 		List<Tipo> tipos = tipoService.obtenerActivos();
@@ -82,7 +82,7 @@ public class InventarioController {
 		return "inventario/nuevo";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam Integer haciendaId, @RequestParam Integer tipoId,
 			@RequestParam String marca, @RequestParam String modelo, @RequestParam String serie,
@@ -93,6 +93,8 @@ public class InventarioController {
 		ModelAndView mv = new ModelAndView();
 		List<Tipo> tipos = tipoService.obtenerActivos();
 		List<CodigoHacienda> codigos = haciendaService.obtenerActivos();
+		System.out.println("ESTA ES LA FECHA");
+		System.out.println(fechaAdquisicion);
 		if (StringUtils.isBlank(marca)) {
 			mv.setViewName("inventario/nuevo");
 			mv.addObject("error", "La Marca no puede estar vacia");
@@ -128,6 +130,7 @@ public class InventarioController {
 			e.printStackTrace();
 		}
 
+		System.out.println(fechaAd);
 		CodigoHacienda codigohacienda = haciendaService.getOne(haciendaId).get();
 		String numeroHacienda = codigohacienda.getCodigo();
 
@@ -173,7 +176,7 @@ public class InventarioController {
 		}
 
 		Inventario inventario = new Inventario(tipo, codigohacienda, corr, codigoIndividual, marca, modelo, serie,
-				fechaAd, costo, depreciable, valorResidual, valorDepreciar, depreciacionMensual, depreciacionAnual,
+				fechaAdquisicion, costo, depreciable, valorResidual, valorDepreciar, depreciacionMensual, depreciacionAnual,
 				depreciacionAcumulada, valorLibros, new Date(), usuario.getNombreUsuario(), "A", "N");
 
 		inventarioService.save(inventario);
@@ -181,7 +184,7 @@ public class InventarioController {
 		return new ModelAndView("redirect:/inventario/lista");
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/borrar/{inventarioId}")
 	public ModelAndView borrar(@PathVariable("inventarioId") int inventarioId) {
 		ModelAndView mv = new ModelAndView();
@@ -204,13 +207,15 @@ public class InventarioController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/editar/{inventarioId}")
 	public ModelAndView editar(@PathVariable("inventarioId") int id) {
 		if (!inventarioService.existsById(id))
 			return new ModelAndView("redirect:/inventario/lista");
 		
 		Inventario inventario = inventarioService.getOne(id).get();
+		
+		
 
 		
 		ModelAndView mv = new ModelAndView("/inventario/editar");

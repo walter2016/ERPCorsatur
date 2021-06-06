@@ -52,13 +52,13 @@ public class AreaController {
 		return "/area/lista";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("nuevo")
 	public String nuevo() {
 		return "area/nuevo";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String nombre) {
 		ModelAndView mv = new ModelAndView();
@@ -82,7 +82,7 @@ public class AreaController {
 		return mv;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/editar/{areaId}")
 	public ModelAndView editar(@PathVariable("areaId") int id) {
 		if (!areaService.existsById(id))
@@ -94,7 +94,7 @@ public class AreaController {
 		return mv;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam int areaId, @RequestParam String nombre) {
 		if (!areaService.existsById(areaId))
@@ -123,7 +123,7 @@ public class AreaController {
 		return new ModelAndView("redirect:/area/lista");
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/borrar/{areaId}")
 	public ModelAndView borrar(@PathVariable("areaId") int areaId) {
 		if (areaService.existsById(areaId)) {

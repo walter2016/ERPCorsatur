@@ -19,8 +19,8 @@
 						<th>Modelo</th>
 						<th>Estado</th>
 						<th>Ver</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+						<th scope="col" sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Editar</th>
+						<th scope="col" sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Eliminar</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -33,12 +33,12 @@
 									class="btn btn-outline-primary">
 									<i class="far fa-eye"></i>
 								</button></a></td>
-						<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+						<td sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"><a
 							th:href="@{'/inventariovehiculo/editar/' + ${inventarioVehiculo.inventarioVehiculoId}}"><button
 									class="btn btn-outline-warning">
 									<i class="far fa-edit"></i>
 								</button></a></td>
-						<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+						<td sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"><a
 							th:href="@{'/inventariovehiculo/borrar/' + ${inventarioVehiculo.inventarioVehiculoId}}"><button
 									class="btn btn-outline-danger">
 									<i class="far fa-trash-alt"></i>
@@ -90,10 +90,10 @@
 						</ul>
 					</nav>
 				</div>
-				<a sec:authorize="hasRole('ROLE_ADMIN')"
+				<a sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"
 					th:href="@{/inventariovehiculo/nuevo}">
 					<button class="btn btn-outline-success btn-lg">
-						<i class="fas fa-plus-circle"></i>Nueva Estado de vehículo
+						<i class="fas fa-plus-circle"></i>Nueva vehículo
 					</button>
 				</a>
 				<div class="col-md-2"></div>

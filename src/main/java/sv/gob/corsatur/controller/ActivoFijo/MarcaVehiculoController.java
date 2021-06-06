@@ -50,13 +50,13 @@ public class MarcaVehiculoController {
 		return "/marcavehiculo/lista";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("nuevo")
 	public String nuevo() {
 		return "marcavehiculo/nuevo";
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String marca) {
 		ModelAndView mv = new ModelAndView();
@@ -85,7 +85,7 @@ public class MarcaVehiculoController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/editar/{marcaVehiculoId}")
 	public ModelAndView editar(@PathVariable("marcaVehiculoId") int id) {
 		if (!marcaVehiculoService.existsById(id))
@@ -97,7 +97,7 @@ public class MarcaVehiculoController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam int marcaVehiculoId, @RequestParam String marca) {
 		if (!marcaVehiculoService.existsById(marcaVehiculoId))
@@ -128,7 +128,7 @@ public class MarcaVehiculoController {
 		return new ModelAndView("redirect:/marcavehiculo/lista");
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/borrar/{marcaVehiculoId}")
 	public ModelAndView borrar(@PathVariable("marcaVehiculoId") int marcaVehiculoId) {
 		if (marcaVehiculoService.existsById(marcaVehiculoId)) {

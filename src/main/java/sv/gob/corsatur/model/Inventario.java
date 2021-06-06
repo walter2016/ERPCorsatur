@@ -60,8 +60,7 @@ public class Inventario {
 	private String serie;
 	
 	@Column(name = "fecha_adquisicion", nullable = false)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date fechaAdquisicion;
+	private String fechaAdquisicion;
 	
 	@NotNull
 	@Column(unique = false)
@@ -126,7 +125,7 @@ public class Inventario {
 	/*  Contructor con todos los parametros  */
 	
 	public Inventario(Tipo tipoId, CodigoHacienda haciendaId, @NotNull int correlativo, @NotNull String codigoIndividual,
-			@NotNull String marca, @NotNull String modelo, @NotNull String serie, Date fechaAdquisicion,
+			@NotNull String marca, @NotNull String modelo, @NotNull String serie, String fechaAdquisicion,
 			@NotNull float costo, @NotNull boolean depreciable, @NotNull float valorResidual,
 			@NotNull float valorDepreciar, @NotNull float depreciacionMensual, @NotNull float depreciacionAnual,
 			@NotNull float depreciacionAcumulada, @NotNull float valorLibros, Date createDate, String userCreate,
@@ -169,7 +168,7 @@ public class Inventario {
 
 	public Inventario(Tipo tipoId, CodigoHacienda haciendaId, @NotNull int correlativo,
 			@NotNull String codigoIndividual, @NotNull String marca, @NotNull String modelo, @NotNull String serie,
-			Date fechaAdquisicion, @NotNull float costo, @NotNull boolean depreciable, @NotNull float valorResidual,
+			String fechaAdquisicion, @NotNull float costo, @NotNull boolean depreciable, @NotNull float valorResidual,
 			@NotNull float valorDepreciar, @NotNull float depreciacionMensual, @NotNull float depreciacionAnual,
 			@NotNull float depreciacionAcumulada, @NotNull float valorLibros, Date createDate, String userCreate, String estado, String asignado) {
 		super();
@@ -257,11 +256,11 @@ public class Inventario {
 		this.serie = serie;
 	}
 
-	public Date getFechaAdquisicion() {
+	public String getFechaAdquisicion() {
 		return fechaAdquisicion;
 	}
 
-	public void setFechaAdquisicion(Date fechaAdquisicion) {
+	public void setFechaAdquisicion(String fechaAdquisicion) {
 		this.fechaAdquisicion = fechaAdquisicion;
 	}
 

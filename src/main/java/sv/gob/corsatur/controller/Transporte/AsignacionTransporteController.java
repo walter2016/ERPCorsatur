@@ -76,7 +76,8 @@ public class AsignacionTransporteController {
 		return "/solicitudvehiculo/lista";
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	//@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@GetMapping("nuevo")
 	public String nuevo(Model model) {
 		List<Gerencia> gerencias = gerenciaService.obtenerActivos();
@@ -86,7 +87,7 @@ public class AsignacionTransporteController {
 		return "solicitudvehiculo/nuevo";
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam Integer gerenciaId, @RequestParam Integer claseVehiculoId,
 			@RequestParam String fechaUtilizacion, @RequestParam String encargadaMision,
@@ -185,7 +186,7 @@ public class AsignacionTransporteController {
 		return mv;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@GetMapping("/editar/{asignacionTransporteId}")
 	public ModelAndView editar(@PathVariable("asignacionTransporteId") int id) {
 		if (!asignacionTransporteService.existsById(id))
@@ -204,7 +205,7 @@ public class AsignacionTransporteController {
 		return mv;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam int asignacionTransporteId, @RequestParam int motoristaId,
 			@RequestParam int inventarioVehiculoId, @RequestParam String observacion) {

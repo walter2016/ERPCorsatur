@@ -59,8 +59,7 @@ public class Asignacion {
 	}
 	
 	@Column(name = "fecha_asignacion", nullable = false)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date fechaAsignacion;
+	private String fechaAsignacion;
 
 	@Column(name = "user_create", nullable = false, length = 100)
 	private String userCreate;
@@ -151,7 +150,7 @@ public class Asignacion {
 	}
 
 	public Asignacion(Empleado empleadoId, Inventario inventarioId,Area areaId, String tipoAsignacion, Date createDate, String userCreate,
-			String estado, Date fechaAsignacion) {
+			String estado, String fechaAsignacion) {
 		super();
 		this.empleadoId = empleadoId;
 		this.areaId = areaId;
@@ -167,11 +166,11 @@ public class Asignacion {
 		super();
 	}
 
-	public Date getFechaAsignacion() {
+	public String getFechaAsignacion() {
 		return fechaAsignacion;
 	}
 
-	public void setFechaAsignacion(Date fechaAsignacion) {
+	public void setFechaAsignacion(String fechaAsignacion) {
 		this.fechaAsignacion = fechaAsignacion;
 	}
 

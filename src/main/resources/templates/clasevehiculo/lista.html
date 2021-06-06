@@ -15,19 +15,19 @@
 				<thead>
 					<tr>
 						<th>Clase</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+						<th scope="col" sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Editar</th>
+						<th scope="col" sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Eliminar</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="claseVehiculo : ${list}">
 						<td th:text="${claseVehiculo.clase}"></td>
-						<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+						<td sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"><a
 							th:href="@{'/clasevehiculo/editar/' + ${claseVehiculo.claseVehiculoId}}"><button
 									class="btn btn-outline-warning">
 									<i class="far fa-edit"></i>
 								</button></a></td>
-						<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+						<td sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"><a
 							th:href="@{'/clasevehiculo/borrar/' + ${claseVehiculo.claseVehiculoId}}"><button
 									class="btn btn-outline-danger">
 									<i class="far fa-trash-alt"></i>
@@ -79,7 +79,7 @@
 						</ul>
 					</nav>
 				</div>
-				<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/clasevehiculo/nuevo}">
+				<a sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')" th:href="@{/clasevehiculo/nuevo}">
 					<button class="btn btn-outline-success btn-lg">
 						<i class="fas fa-plus-circle"></i>Nueva Clase de vehículo
 					</button>

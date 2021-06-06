@@ -2,46 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="fragments :: headerfiles">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
 	<header th:insert="fragments :: nav"></header>
 
 	<div class="container">
-		<h1>Asignación de Inventario</h1>
+		<h1>Listado de Configuraciones</h1>
 		<br>
-		<div >
+		<div>
 			<table class="table table-striped text-center">
 				<thead>
 					<tr>
-						<th>Código individual</th>
-						<th scope="col">Descripción del Bien</th>
-						<th>Marca</th>
-						<th>Modelo</th>
-						<th>Serie</th>
-						<th>Empleado Asignación</th>
-						<th>Área Asignación</th>
-						<th>Fecha de Asignación</th>
-						<th>Costo de Asignación</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Realizar Descarga</th>
+						<th>Nombre</th>
+						<th>Valor</th>
+						<th>Descripción</th>
+						<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="asignacion : ${list}">
-						<td th:text="${asignacion.inventarioId.codigoIndividual}"></td>
-						<td th:text="${asignacion.inventarioId.tipoId.nombre}"></td>
-						<td th:text="${asignacion.inventarioId.marca}"></td>
-						<td th:text="${asignacion.inventarioId.modelo}"></td>
-						<td th:text="${asignacion.inventarioId.serie}"></td>
-						<td th:text="${asignacion.empleadoId.primerNombre} + ' ' + ${asignacion.empleadoId.primerApellido}"></td>
-						<td th:text="${asignacion.areaId.nombre}"></td>
-						<td th:text="${asignacion.fechaAsignacion}"></td>
-						<td th:text="${asignacion.inventarioId.costo}"></td>
-						<td sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"><a
-							th:href="@{'/asignacion/borrar/' + ${asignacion.asignacionId}}"><button
-									class="btn btn-outline-danger">
-									<i class="far fa-trash-alt"></i>
+					<tr th:each="configuracion : ${list}">
+						<td th:text="${configuracion.codigoClasificacion}"></td>
+						<td th:text="${configuracion.valor}"></td>
+						<td th:text="${configuracion.descripcion}"></td>
+						<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+							th:href="@{'/configuracion/editar/' + ${configuracion.configuracionId}}"><button
+									class="btn btn-outline-warning">
+									<i class="far fa-edit"></i>
 								</button></a></td>
+
 					</tr>
 				</tbody>
 			</table>
@@ -89,9 +78,9 @@
 						</ul>
 					</nav>
 				</div>
-				<a sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')" th:href="@{/asignacion/nuevo}">
+				<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/configuracion/nuevo}">
 					<button class="btn btn-outline-success btn-lg">
-						<i class="fas fa-plus-circle"></i> Realizar Nueva Asignacion
+						<i class="fas fa-plus-circle"></i> Nueva Configuración
 					</button>
 				</a>
 				<div class="col-md-2"></div>

@@ -74,14 +74,16 @@ public class EmpleadoController {
 		return "/empleado/lista";
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	//@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("nuevo")
 	public String nuevo() {
 
 		return "empleado/nuevo";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam String usuario,@RequestParam String primerNombre, @RequestParam String segundoNombre,
 			@RequestParam String primerApellido, @RequestParam String segundoApellido, @RequestParam String email) {
@@ -134,7 +136,7 @@ public class EmpleadoController {
 		return mv;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/editar/{empleadoId}")
 	public ModelAndView editar(@PathVariable("empleadoId") int id) {
 		if (!empleadoService.existsById(id))
@@ -145,8 +147,24 @@ public class EmpleadoController {
 
 		return mv;
 	}
+	
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
+	@GetMapping("/rol/{empleadoId}")
+	public ModelAndView editarRol(@PathVariable("empleadoId") int id) {
+		if (!empleadoService.existsById(id))
+			return new ModelAndView("redirect:/empleado/lista");
+		Empleado empleado = empleadoService.getOne(id).get();
+		ModelAndView mv = new ModelAndView("/empleado/rol");
+		mv.addObject("empleado", empleado);
 
-	@PreAuthorize("hasRole('ADMIN')")
+		return mv;
+	}
+
+	
+	
+
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/actualizar")
 	public ModelAndView actualizar(@RequestParam String usuario,@RequestParam int empleadoId, @RequestParam String primerNombre,
 			@RequestParam String segundoNombre, @RequestParam String primerApellido,
@@ -204,7 +222,7 @@ public class EmpleadoController {
 		return new ModelAndView("redirect:/empleado/lista");
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/borrar/{empleadoId}")
 	public ModelAndView borrar(@PathVariable("empleadoId") int empleadoId) {
 		if (empleadoService.existsById(empleadoId)) {
@@ -212,6 +230,28 @@ public class EmpleadoController {
 			UserDetails userDetails = (UserDetails) auth.getPrincipal();
 			Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
 			empleadoService.eliminar(empleadoId, new Date(), usuario.getNombreUsuario());
+			return new ModelAndView("redirect:/empleado/lista");
+		}
+		return null;
+	}
+	
+	
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/reset/{empleadoId}")
+	public ModelAndView resetear(@PathVariable("empleadoId") int empleadoId) {
+		if (empleadoService.existsById(empleadoId)) {
+			
+			Empleado empleado = empleadoService.getOne(empleadoId).get();
+			
+			Usuario user = usuarioService.getByNombreUsuario(empleado.getUsuario().getNombreUsuario()).get();
+			user.setPassword(passwordEncoder.encode(empleado.getUsuario().getNombreUsuario()));
+			usuarioService.save(user);
+			
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			UserDetails userDetails = (UserDetails) auth.getPrincipal();
+			Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
+			empleado.setUserUpdate(usuario.getNombreUsuario());
+			empleadoService.save(empleado);
 			return new ModelAndView("redirect:/empleado/lista");
 		}
 		return null;

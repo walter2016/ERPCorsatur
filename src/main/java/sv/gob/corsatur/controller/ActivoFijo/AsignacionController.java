@@ -69,7 +69,7 @@ public class AsignacionController {
 		return "/asignacion/lista";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("nuevo")
 	public String nuevo(Model model) {
 		List<Inventario> inventarios = inventarioService.obtenerNoAsignados();
@@ -81,7 +81,7 @@ public class AsignacionController {
 		return "asignacion/nuevo";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/guardar")
 	public ModelAndView crear(@RequestParam Integer inventarioId, @RequestParam Integer areaId,
 			@RequestParam Integer empleadoId, @RequestParam String fechaAsignacion, Model model) {
@@ -125,7 +125,7 @@ public class AsignacionController {
 		asignacion.setEstado("A");
 		asignacion.setTipoAsignacion("ASIGNACION");
 		asignacion.setUserCreate(usuario.getNombreUsuario());
-		asignacion.setFechaAsignacion(fechaAsigna);
+		asignacion.setFechaAsignacion(fechaAsignacion);
 
 		asignacionService.save(asignacion);
 		
@@ -134,7 +134,7 @@ public class AsignacionController {
 		return mv;
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@GetMapping("/borrar/{asignacionId}")
 	public ModelAndView borrar(@PathVariable("asignacionId") int asignacionId) {
 		if (asignacionService.existsById(asignacionId)) {
@@ -143,6 +143,9 @@ public class AsignacionController {
 			Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
 			
 			Asignacion asignacion = asignacionService.getOne(asignacionId).get();
+			
+			asignacion.setEstado("N");
+			asignacion.setUserUpdate(usuario.getNombreUsuario());
 			
 			Asignacion asigNew = new Asignacion();
 			
@@ -153,8 +156,9 @@ public class AsignacionController {
 			asigNew.setEstado("A");
 			asigNew.setTipoAsignacion("DESCARGO");
 			asigNew.setUserCreate(usuario.getNombreUsuario());
-			asigNew.setFechaAsignacion(new Date());
+			asigNew.setFechaAsignacion(new Date().toString());
 			asignacionService.save(asigNew);
+			asignacionService.save(asignacion);
 			Inventario inventario = inventarioService.getOne(asignacion.getInventarioId().getInventarioId()).get();
 			inventarioService.actualizarDescargo(inventario.getInventarioId(),new Date(),usuario.getNombreUsuario());
 			return new ModelAndView("redirect:/asignacion/lista");
