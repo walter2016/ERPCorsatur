@@ -149,14 +149,21 @@ public class EmpleadoController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/rol/{empleadoId}")
 	public ModelAndView editarRol(@PathVariable("empleadoId") int id) {
 		if (!empleadoService.existsById(id))
 			return new ModelAndView("redirect:/empleado/lista");
 		Empleado empleado = empleadoService.getOne(id).get();
+		
+		System.out.println(empleado.getUsuario().getId());
+		List<Rol> rolesUsuario = rolService.obtenerRoles(empleado.getUsuario().getId());
+		List<Rol> roles = rolService.obtenerTodosRoles();
+		
 		ModelAndView mv = new ModelAndView("/empleado/rol");
 		mv.addObject("empleado", empleado);
+		mv.addObject("rolesUsuario", rolesUsuario);
+		mv.addObject("roles", roles);
 
 		return mv;
 	}
@@ -255,6 +262,47 @@ public class EmpleadoController {
 			return new ModelAndView("redirect:/empleado/lista");
 		}
 		return null;
+	}
+	
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping("/guardarrol")
+	public ModelAndView actualizarRol(@RequestParam int rolId,@RequestParam int empleadoId) {
+		if (!empleadoService.existsById(empleadoId))
+			return new ModelAndView("redirect:/empleado/lista");
+		ModelAndView mv = new ModelAndView();
+		Empleado empleado = empleadoService.getOne(empleadoId).get();
+		Usuario usaurio = usuarioService.getById(empleado.getUsuario().getId()).get();
+
+		Rol rolUser = null;
+		if(rolId==1) {
+		 rolUser = rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get();
+		}
+		if(rolId==2) {
+			 rolUser = rolService.getByRolNombre(RolNombre.ROLE_USER).get();
+			}
+		if(rolId==3) {
+			 rolUser = rolService.getByRolNombre(RolNombre.ROLE_HELP).get();
+			}
+		if(rolId==4) {
+			 rolUser = rolService.getByRolNombre(RolNombre.ROLE_ACTI).get();
+			}
+		if(rolId==5) {
+			 rolUser = rolService.getByRolNombre(RolNombre.ROLE_TRAN).get();
+			}
+
+		Set<Rol> roles = new HashSet<>();
+		roles.add(rolUser);
+		usaurio.setRoles(roles);
+		usuarioService.save(usaurio);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		Usuario usuario1 = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
+		
+
+		empleado.setUserUpdate(usuario1.getNombreUsuario());
+		empleadoService.save(empleado);
+		return new ModelAndView("redirect:/empleado/lista");
 	}
 
 }

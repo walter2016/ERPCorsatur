@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments :: headerfiles">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<header th:insert="fragments :: nav"></header>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<span class="anchor" id="formAreaEdit"></span>
+				<!-- form user info -->
+				<div class="card card-outline-secondary">
+					<div class="card-header">
+						<h3 class="mb-0">Solicitud de Préstamo  de Vehículo</h3>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/user/guardarsoli}" method="post">
+							<!-- control ataque csrf -->
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}">
+							<!-- fin control ataque csrf -->
+
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label form-control-label">Gerencia
+									que Solicita </label>
+								<div class="col-lg-8">
+									<select id="gerenciaId" class="form-control" name="gerenciaId">
+										<option th:each="gerencia : ${gerencias}"
+											th:value="${gerencia.gerenciaId}"
+											th:text="${gerencia.nombre}" />
+									</select>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label form-control-label">Encargado
+									de Misión</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" id="encargadaMision"
+										name="encargadaMision" required="required" autocomplete="off">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label form-control-label">Personas
+									que viajaran</label>
+								<div class="col-lg-8">
+									<textarea class="form-control" id="personaViajaran"
+										name="personaViajaran" rows="3"></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label form-control-label">Destino</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" id="destino"
+										name="destino" required="required" autocomplete="off">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label form-control-label">Objetivo
+									Misión</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" id="objetivoMision"
+										name="objetivoMision" required="required" autocomplete="off">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label form-control-label">Fecha
+									de Utilización</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="date" id="fechaUtilizacion"
+										name="fechaUtilizacion" required="required">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label form-control-label">Hora
+									de Salida</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" id="horaSalida"
+										name="horaSalida" required="required" placeholder="ej. 6:00 AM"
+										autocomplete="off">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label form-control-label">Hora
+									de Regreso</label>
+								<div class="col-lg-8">
+									<input class="form-control" type="text" id="horaRegreso"
+										name="horaRegreso" required="required" placeholder="ej .6:00 PM"
+										autocomplete="off">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label form-control-label">Clase de Vehículo </label>
+								<div class="col-lg-8">
+									<select id="claseVehiculoId" class="form-control" name="claseVehiculoId">
+										<option th:each="clasevehiculo : ${claseVehiculos}" th:value="${clasevehiculo.claseVehiculoId}"
+											th:text="${clasevehiculo.clase}" />
+									</select>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label control-label"></label>
+								<div class="col-lg-9">
+									<button type="submit"
+										class="col-lg-6 btn btn-outline-success btn-block">
+										<i class="far fa-save"></i> Guardar
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- /form user info -->
+				<a th:href="@{/user/listasolicvehiculo}" style="text-decoration: none;"><button
+						class="col-lg-3 btn btn-outline-info">
+						<i class="fas fa-arrow-circle-left"></i> Volver
+					</button></a>
+
+				<div th:if="${error}"
+					class="alert alert-danger alert-dismissible fade show mt-2"
+					role="alert">
+					<p th:text="${error}"></p>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:insert="fragments :: footer"></footer>
+	<div th:insert="fragments :: scripts"></div>
+</body>
+</html>

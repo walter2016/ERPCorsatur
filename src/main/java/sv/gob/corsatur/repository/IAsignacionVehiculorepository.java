@@ -24,4 +24,9 @@ public interface IAsignacionVehiculorepository extends JpaRepository<AsignacionT
 	    	    nativeQuery = true)
 	    	  Page<AsignacionTransporte> buscarSolicitudes(Pageable pageable);
 
+	    
+	    @Query(value = "SELECT * FROM asignacion_transporte WHERE estado='A' and user_create=:userCreate",
+	    	    countQuery = "SELECT count(*) FROM asignacion_transporte WHERE estado='A' and user_create=:userCreate",
+	    	    nativeQuery = true)
+	    	  Page<AsignacionTransporte> buscarSolicitudesUsuario(Pageable pageable, @Param("userCreate") String userCreate);
 }

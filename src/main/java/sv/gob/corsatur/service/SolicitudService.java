@@ -48,6 +48,10 @@ public class SolicitudService {
 		return solicitudRepository.findSolicitudes(pageable);
 	}
 	
+	public Page<Solicitud> obtenerActivosUsuario(Pageable pageable, int empleadoId){
+		return solicitudRepository.findSolicitudesPorUsuario(pageable,empleadoId);
+	}
+	
 	public int obtenerNumeroSolicitud() {
 		return solicitudRepository.buscarNumeroSolicitud();
 	}

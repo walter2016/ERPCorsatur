@@ -38,14 +38,19 @@
 				<ul class="navbar-nav mr-auto">
 
 					<li class="nav-item active"
-						sec:authorize="isAuthenticated() && !hasRole('ROLE_ADMIN')"><a
-						class="nav-link" th:href="@{/area/lista}"> <i
-							class="far fa-list-alt"></i> Lista
+						sec:authorize="isAuthenticated()"><a
+						class="nav-link" th:href="@{/user/listahelpdesk}"> <i
+							class="far fa-list-alt"></i> Ingreso Solicitud HelpDesk
 					</a></li>
 					<li class="nav-item active"
-						sec:authorize="isAuthenticated() && !hasRole('ROLE_ADMIN')"><a
-						class="nav-link" th:href="@{/solicitudvehiculo/nuevo}"> <i
+						sec:authorize="isAuthenticated()"><a
+						class="nav-link" th:href="@{/user/listasolicvehiculo}"> <i
 							class="far fa-list-alt"></i> Ingreso Solicitud de Transporte
+					</a></li>
+					<li class="nav-item active"
+						sec:authorize="isAuthenticated()"><a
+						class="nav-link" th:href="@{/user/cambio}"> <i
+							class="far fa-list-alt"></i> Cambio de Contraseña
 					</a></li>
 					<li class="nav-item dropdown active"
 						sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"><a

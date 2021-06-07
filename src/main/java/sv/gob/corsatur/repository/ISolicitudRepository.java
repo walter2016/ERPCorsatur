@@ -31,6 +31,12 @@ public interface ISolicitudRepository extends JpaRepository<Solicitud, Integer>{
     	    nativeQuery = true)
     	  Page<Solicitud> findSolicitudes(Pageable pageable);
     
+    
+    @Query(value = "SELECT * FROM solicitud WHERE estado='A' and empleado_id=:empleadoId",
+    	    countQuery = "SELECT count(*) FROM solicitud WHERE estado='A' and empleado_id=:empleadoId",
+    	    nativeQuery = true)
+    	  Page<Solicitud> findSolicitudesPorUsuario(Pageable pageable,@Param("empleadoId") int empleadoId);
+    
     @Query(value = "select max(numero_solicitud) from solicitud", nativeQuery = true)
 	int buscarNumeroSolicitud();
 

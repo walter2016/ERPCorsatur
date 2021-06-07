@@ -35,5 +35,9 @@ public class AsignacionTransporteService {
 		return asignacionVehiculoRepository.buscarSolicitudes(pageable);
 	}
 	
+	public Page<AsignacionTransporte> obtenerAsignacionTransporteUsuario(Pageable pageable, String userCreate){
+		return asignacionVehiculoRepository.buscarSolicitudesUsuario(pageable,userCreate);
+	}
+	
 	
 }
