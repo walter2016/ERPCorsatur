@@ -15,12 +15,12 @@ public interface IAsignacionVehiculorepository extends JpaRepository<AsignacionT
 	
 		    
 	    @Modifying
-	    @Query(value = "UPDATE  motoristas SET estado='N', disponible='N', update_date=:updateDate,user_update=:userUpdate  WHERE motorista_id=:motoristaId", nativeQuery=true)
-	    void eliminarMotorista(@Param("motoristaId") int gerenciaId, @Param("updateDate") Date updateDate, @Param("userUpdate") String userUpdate);
+	    @Query(value = "UPDATE  asignacion_transporte SET estado_solicitud='DENEGADA', update_date=:updateDate,user_update=:userUpdate  WHERE asigna_transporte_id=:asignacionTransporteId", nativeQuery=true)
+	    void denegar(@Param("asignacionTransporteId") int asignacionTransporteId, @Param("updateDate") Date updateDate, @Param("userUpdate") String userUpdate);
 	    
 	    
-	    @Query(value = "SELECT * FROM asignacion_transporte WHERE estado='A' and estado_solicitud in ('SOLICITADA', 'ACEPTADA')",
-	    	    countQuery = "SELECT count(*) FROM asignacion_transporte WHERE estado='A' and estado_solicitud in ('SOLICITADA', 'ACEPTADA')",
+	    @Query(value = "SELECT * FROM asignacion_transporte WHERE estado='A' and estado_solicitud in ('SOLICITADA', 'ACEPTADA','DENEGADA')",
+	    	    countQuery = "SELECT count(*) FROM asignacion_transporte WHERE estado='A' and estado_solicitud in ('SOLICITADA', 'ACEPTADA','DENEGADA')",
 	    	    nativeQuery = true)
 	    	  Page<AsignacionTransporte> buscarSolicitudes(Pageable pageable);
 

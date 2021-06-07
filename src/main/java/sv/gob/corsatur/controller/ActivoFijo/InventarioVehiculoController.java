@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import sv.gob.corsatur.model.ClaseVehiculo;
+import sv.gob.corsatur.model.Condicion;
 import sv.gob.corsatur.model.EstadoVehiculo;
 import sv.gob.corsatur.model.InventarioVehiculo;
 import sv.gob.corsatur.model.MarcaVehiculo;
 import sv.gob.corsatur.model.Usuario;
 import sv.gob.corsatur.service.ClaseVehiculoService;
+import sv.gob.corsatur.service.CondicionService;
 import sv.gob.corsatur.service.EstadoVehiculoService;
 import sv.gob.corsatur.service.InventarioVehiculoService;
 import sv.gob.corsatur.service.MarcaVehiculoService;
@@ -42,6 +44,9 @@ public class InventarioVehiculoController {
 
 	@Autowired
 	ClaseVehiculoService claseVehiculoService;
+	
+	@Autowired
+	CondicionService condicionService;
 
 	@Autowired
 	MarcaVehiculoService marcaVehiculoService;
@@ -84,10 +89,11 @@ public class InventarioVehiculoController {
 		List<MarcaVehiculo> marcaVehiculo = marcaVehiculoService.obtenerActivos();
 		List<EstadoVehiculo> estadoVehiculo = estadoVehiculoService.obtenerActivos();
 		List<ClaseVehiculo> claseVehiculo = claseVehiculoService.obtenerActivos();
+		List<Condicion> condiciones = condicionService.obtenerActivos();
 		model.addAttribute("marcaVehiculo", marcaVehiculo);
 		model.addAttribute("estadoVehiculo", estadoVehiculo);
 		model.addAttribute("claseVehiculo", claseVehiculo);
-
+		model.addAttribute("condiciones", condiciones);
 		return "inventariovehiculo/nuevo";
 	}
 
@@ -98,7 +104,7 @@ public class InventarioVehiculoController {
 			@RequestParam String tipoAsientos, @RequestParam String color, @RequestParam String descripcion,
 			@RequestParam String numeroVin, @RequestParam String capacidad, @RequestParam String combustible,
 			@RequestParam String traccion, @RequestParam String utilizadoPor, @RequestParam int marcaVehiculoId,
-			@RequestParam int claseVehiculoId, @RequestParam int estadoVehiculoId, Model model) {
+			@RequestParam int claseVehiculoId, @RequestParam int estadoVehiculoId,@RequestParam boolean aplica, Model model) {
 		ModelAndView mv = new ModelAndView();
 		List<MarcaVehiculo> marcaVehiculo = marcaVehiculoService.obtenerActivos();
 		List<EstadoVehiculo> estadoVehiculo = estadoVehiculoService.obtenerActivos();
@@ -255,7 +261,12 @@ public class InventarioVehiculoController {
 		inventarioVehiculo.setUserCreate(usuario.getNombreUsuario());
 		inventarioVehiculo.setCreateDate(new Date());
 		inventarioVehiculo.setEstado("A");
-		inventarioVehiculo.setAplica(true);
+		if(aplica=true) {
+			inventarioVehiculo.setAplica(true);
+		}
+		if(aplica=false) {
+			inventarioVehiculo.setAplica(false);
+		}
 		inventarioVehiculo.setAsignado("N");
 		
 		inventarioVehiculoService.save(inventarioVehiculo);
@@ -287,11 +298,13 @@ public class InventarioVehiculoController {
 		List<MarcaVehiculo> marcaVehiculo = marcaVehiculoService.obtenerActivos();
 		List<EstadoVehiculo> estadoVehiculo = estadoVehiculoService.obtenerActivos();
 		List<ClaseVehiculo> claseVehiculo = claseVehiculoService.obtenerActivos();
+		List<Condicion> condiciones = condicionService.obtenerActivos();
 		ModelAndView mv = new ModelAndView("/inventariovehiculo/editar");
 		mv.addObject("inventarioVehiculo", inventarioVehiculo);
 		mv.addObject("marcaVehiculo",marcaVehiculo);
 		mv.addObject("estadoVehiculo",estadoVehiculo);
 		mv.addObject("claseVehiculo",claseVehiculo);
+		mv.addObject("condiciones", condiciones);
 		return mv;
 	}
 	
@@ -302,11 +315,12 @@ public class InventarioVehiculoController {
 			@RequestParam String tipoAsientos, @RequestParam String color, @RequestParam String descripcion,
 			@RequestParam String numeroVin, @RequestParam String capacidad, @RequestParam String combustible,
 			@RequestParam String traccion, @RequestParam String utilizadoPor, @RequestParam int marcaVehiculoId,
-			@RequestParam int claseVehiculoId, @RequestParam int estadoVehiculoId, Model model) {
+			@RequestParam int claseVehiculoId, @RequestParam int estadoVehiculoId,@RequestParam boolean aplica, Model model) {
 		if (!inventarioVehiculoService.existsById(inventarioVehiculoId))
 			return new ModelAndView("redirect:/inventariovehiculo/lista");
 		ModelAndView mv = new ModelAndView();
 		InventarioVehiculo inventarioVehiculo = inventarioVehiculoService.getOne(inventarioVehiculoId).get();
+		System.out.print(aplica);
 
 		List<MarcaVehiculo> marcaVehiculo = marcaVehiculoService.obtenerActivos();
 		List<EstadoVehiculo> estadoVehiculo = estadoVehiculoService.obtenerActivos();
@@ -456,8 +470,9 @@ public class InventarioVehiculoController {
 		inventarioVehiculo.setCombustible(combustible);
 		inventarioVehiculo.setEstadoVehiculoId(estVehiculo);
 		inventarioVehiculo.setUtilizadoPor(utilizadoPor);
-
+		inventarioVehiculo.setAplica(aplica);
 		inventarioVehiculo.setUserUpdate(usuario.getNombreUsuario());
+		
 		inventarioVehiculoService.save(inventarioVehiculo);
 		return new ModelAndView("redirect:/inventariovehiculo/lista");
 	}

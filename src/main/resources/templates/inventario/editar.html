@@ -27,31 +27,20 @@
 
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Código
-								</label>
+									</label>
 								<div class="col-lg-9">
-									<select id="haciendaId" class="form-control" name="haciendaId">
-										<option th:value="${inventario.haciendaId.haciendaId}"
-											th:text="${inventario.haciendaId.codigo} + ' - ' +${inventario.haciendaId.nombre}" />
-										<option th:each="codigo : ${codigos}"
-											th:value="${codigo.haciendaId}"
-											th:text="${codigo.codigo} + ' - ' +${codigo.nombre} "
-											disabled="disabled" />
-
-									</select>
+									<input class="form-control" type="text" id="haciendaId" readonly="readonly" name="haciendaId"
+										required="required" autocomplete="off"
+										th:value="${inventario.haciendaId.codigo} + ' - ' +${inventario.haciendaId.nombre}">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Tipo
-									de Inventario </label>
+									de Inventario</label>
 								<div class="col-lg-9">
-									<select id="tipoId" class="form-control" name="tipoId">
-										<option th:value="${inventario.tipoId.tipoId}"
-											th:text="${inventario.tipoId.codigo} + ' - ' +${inventario.tipoId.nombre}" />
-										<option th:each="tipo : ${tipos}" th:value="${tipo.tipoId}"
-											th:text="${tipo.codigo} + ' - '  +${tipo.nombre}"
-											 />
-
-									</select>
+									<input class="form-control" type="text" id="tipoId" readonly="readonly" name="tipoId"
+										required="required" autocomplete="off"
+										th:value="${inventario.tipoId.codigo} + ' - ' +${inventario.tipoId.nombre}">
 								</div>
 							</div>
 							<div class="form-group row">

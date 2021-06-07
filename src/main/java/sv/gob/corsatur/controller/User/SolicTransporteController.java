@@ -150,16 +150,6 @@ public class SolicTransporteController {
 			UserDetails userDetails = (UserDetails) auth.getPrincipal();
 			Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
 
-			SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
-			Date fechaUtilizacion1 = null;
-
-			try {
-				fechaUtilizacion1 = formatoDelTexto.parse(fechaUtilizacion);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
 			Gerencia gerencia = gerenciaService.getOne(gerenciaId).get();
 			ClaseVehiculo claseVehiculo = claseVehiculoService.getOne(claseVehiculoId).get();
 
@@ -167,7 +157,7 @@ public class SolicTransporteController {
 
 			asignacionTransporte.setClaseVehiculoId(claseVehiculo);
 			asignacionTransporte.setGerenciaId(gerencia);
-			asignacionTransporte.setFechaUtilizacion(fechaUtilizacion1);
+			asignacionTransporte.setFechaUtilizacion(fechaUtilizacion);
 			asignacionTransporte.setEncargadaMision(encargadaMision);
 			asignacionTransporte.setPersonaViajaran(personaViajaran);
 			asignacionTransporte.setDestino(destino);

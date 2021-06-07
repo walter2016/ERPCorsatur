@@ -1,5 +1,6 @@
 package sv.gob.corsatur.service;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class AsignacionTransporteService {
 	
 	public boolean existsById(int id) {
 		return asignacionVehiculoRepository.existsById(id);
+	}
+	
+	public void denegar(int asignacionTransporteId, Date updateDate, String userUpdate) {
+		asignacionVehiculoRepository.denegar(asignacionTransporteId, updateDate, userUpdate);
 	}
 
 	public Page<AsignacionTransporte> obtenerAsignacionTransporte(Pageable pageable){

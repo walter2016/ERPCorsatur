@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sv.gob.corsatur.model.Categoria;
 import sv.gob.corsatur.model.CodigoHacienda;
 import sv.gob.corsatur.model.Condicion;
+import sv.gob.corsatur.model.EstadoVehiculo;
 import sv.gob.corsatur.model.Inventario;
 import sv.gob.corsatur.model.Tipo;
 import sv.gob.corsatur.model.Usuario;
@@ -120,17 +121,7 @@ public class InventarioController {
 			model.addAttribute("codigos", codigos);
 		}
 
-		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
-		Date fechaAd = null;
 
-		try {
-			fechaAd = formatoDelTexto.parse(fechaAdquisicion);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println(fechaAd);
 		CodigoHacienda codigohacienda = haciendaService.getOne(haciendaId).get();
 		String numeroHacienda = codigohacienda.getCodigo();
 
@@ -227,6 +218,92 @@ public class InventarioController {
 		mv.addObject("condiciones", condiciones);
 		mv.addObject("inventario", inventario);
 		return mv;
+	}
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
+	@PostMapping("/actualizar")
+	public ModelAndView actualizar(@RequestParam int inventarioId,@RequestParam String marca, @RequestParam String modelo, @RequestParam String serie,
+			@RequestParam float costo, @RequestParam String fechaAdquisicion, @RequestParam boolean depreciable) {
+		if (!inventarioService.existsById(inventarioId))
+			return new ModelAndView("redirect:/inventario/lista");
+		ModelAndView mv = new ModelAndView();
+		Inventario inventario = inventarioService.getOne(inventarioId).get();
+		List<Condicion> condiciones = condicionService.obtenerActivos();
+		if (StringUtils.isBlank(marca)) {
+			mv.setViewName("inventario/nuevo");
+			mv.addObject("error", "La Marca no puede estar vacia");
+			mv.addObject("inventario", inventario);
+			mv.addObject("condiciones", condiciones);
+		}
+		if (StringUtils.isBlank(modelo)) {
+			mv.setViewName("inventario/nuevo");
+			mv.addObject("error", "El Modelo no puede estar vacia");
+			mv.addObject("inventario", inventario);
+			mv.addObject("condiciones", condiciones);
+		}
+		if (StringUtils.isBlank(serie)) {
+			mv.setViewName("inventario/nuevo");
+			mv.addObject("error", "La Seria no puede estar vacia");
+			mv.addObject("inventario", inventario);
+			mv.addObject("condiciones", condiciones);
+		}
+		if (costo < 0.0) {
+			mv.setViewName("inventario/nuevo");
+			mv.addObject("error", "El costo debe de ser mayor a 0.0");
+			mv.addObject("inventario", inventario);
+			mv.addObject("condiciones", condiciones);
+		}
+		
+
+		float valorResidual = (float) 0.0;
+		float valorDepreciar = (float) 0.0;
+		float depreciacionMensual = (float) 0.0;
+		float depreciacionAnual = (float) 0.0;
+		float depreciacionAcumulada = (float) 0.0;
+		float valorLibros = (float) 0.0;
+
+		if (depreciable == true) {
+
+			valorResidual = (float) (costo * 0.10);
+			valorDepreciar = (costo - valorResidual);
+			depreciacionMensual = (valorDepreciar / 60);
+			depreciacionAcumulada = valorDepreciar;
+			valorLibros = (costo - depreciacionAcumulada);
+		}
+
+		
+		inventario.setMarca(marca);
+		inventario.setModelo(modelo);
+		inventario.setSerie(serie);
+		inventario.setCosto(costo);
+		inventario.setFechaAdquisicion(fechaAdquisicion);
+		inventario.setDepreciable(depreciable);
+		if (depreciable == true) {
+			
+			inventario.setValorResidual(valorResidual);
+			inventario.setValorDepreciar(valorDepreciar);
+			inventario.setDepreciacionMensual(depreciacionMensual);
+			inventario.setDepreciacionAcumulada(depreciacionAcumulada);
+			inventario.setValorLibros(valorLibros);
+
+		}
+	if (depreciable == false) {
+			
+			inventario.setValorResidual(0);
+			inventario.setValorDepreciar(0);
+			inventario.setDepreciacionMensual(0);
+			inventario.setDepreciacionAcumulada(0);
+			inventario.setValorLibros(0);
+
+		}
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
+
+		inventario.setUserUpdate(usuario.getNombreUsuario());
+		inventarioService.save(inventario);
+		return new ModelAndView("redirect:/inventario/lista");
 	}
 	
 

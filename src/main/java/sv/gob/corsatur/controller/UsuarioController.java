@@ -87,6 +87,7 @@ public class UsuarioController {
 		Usuario usuario = new Usuario();
 		usuario.setNombreUsuario(nombreUsuario);
 		usuario.setPassword(passwordEncoder.encode(password));
+		
 		Rol rolUser = rolService.getByRolNombre(RolNombre.ROLE_USER).get();
 		Set<Rol> roles = new HashSet<>();
 		roles.add(rolUser);

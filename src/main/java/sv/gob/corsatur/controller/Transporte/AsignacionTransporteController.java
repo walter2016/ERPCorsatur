@@ -150,16 +150,6 @@ public class AsignacionTransporteController {
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
 		Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
 
-		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
-		Date fechaUtilizacion1 = null;
-
-		try {
-			fechaUtilizacion1 = formatoDelTexto.parse(fechaUtilizacion);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		Gerencia gerencia = gerenciaService.getOne(gerenciaId).get();
 		ClaseVehiculo claseVehiculo = claseVehiculoService.getOne(claseVehiculoId).get();
 
@@ -167,7 +157,7 @@ public class AsignacionTransporteController {
 
 		asignacionTransporte.setClaseVehiculoId(claseVehiculo);
 		asignacionTransporte.setGerenciaId(gerencia);
-		asignacionTransporte.setFechaUtilizacion(fechaUtilizacion1);
+		asignacionTransporte.setFechaUtilizacion(fechaUtilizacion);
 		asignacionTransporte.setEncargadaMision(encargadaMision);
 		asignacionTransporte.setPersonaViajaran(personaViajaran);
 		asignacionTransporte.setDestino(destino);
@@ -248,6 +238,19 @@ public class AsignacionTransporteController {
 		inventarioVehiculo.setAsignado("S");
 		inventarioVehiculoService.save(inventarioVehiculo);
 		return new ModelAndView("redirect:/solicitudvehiculo/lista");
+	}
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
+	@GetMapping("/borrar/{asignacionTransporteId}")
+	public ModelAndView borrar(@PathVariable("asignacionTransporteId") int asignacionTransporteId) {
+		if (asignacionTransporteService.existsById(asignacionTransporteId)) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			UserDetails userDetails = (UserDetails) auth.getPrincipal();
+			Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
+			asignacionTransporteService.denegar(asignacionTransporteId, new Date(), usuario.getNombreUsuario());
+			return new ModelAndView("redirect:/solicitudvehiculo/lista");
+		}
+		return null;
 	}
 
 }

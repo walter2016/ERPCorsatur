@@ -38,7 +38,7 @@ public class AsignacionTransporte {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "asigna_transpporte_id", unique = true, nullable = false)
+	@Column(name = "asigna_transporte_id", unique = true, nullable = false)
 	private int asignacionTransporteId;
 	
 	
@@ -60,8 +60,7 @@ public class AsignacionTransporte {
 	private String objetivoMision;
 	
 	@Column(name = "fecha_utilizacion", nullable = false)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date fechaUtilizacion;
+	private String fechaUtilizacion;
 	
 	@NotNull
 	@Column(name = "hora_salida", length = 100)
@@ -177,11 +176,11 @@ public class AsignacionTransporte {
 		this.objetivoMision = objetivoMision;
 	}
 
-	public Date getFechaUtilizacion() {
+	public String getFechaUtilizacion() {
 		return fechaUtilizacion;
 	}
 
-	public void setFechaUtilizacion(Date fechaUtilizacion) {
+	public void setFechaUtilizacion(String fechaUtilizacion) {
 		this.fechaUtilizacion = fechaUtilizacion;
 	}
 

@@ -29,7 +29,9 @@
 					</div>
 					<div class="card-body">
 						<form th:action="@{/inventariovehiculo/actualizar}" method="post">
-						<input type="hidden" name="inventarioVehiculoId" id="inventarioVehiculoId" th:value="${inventarioVehiculo.inventarioVehiculoId}">
+							<input type="hidden" name="inventarioVehiculoId"
+								id="inventarioVehiculoId"
+								th:value="${inventarioVehiculo.inventarioVehiculoId}">
 							<!-- control ataque csrf -->
 							<input type="hidden" th:name="${_csrf.parameterName}"
 								th:value="${_csrf.token}">
@@ -38,14 +40,16 @@
 								<label class="col-lg-3 col-form-label form-control-label">Placa</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="placa" name="placa"
-										required="required" autocomplete="off" th:value="${inventarioVehiculo.placa}">
+										required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.placa}">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Asignación</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="asignacion"
-										name="asignacion" required="required" autocomplete="off" th:value="${inventarioVehiculo.asignacion}">
+										name="asignacion" required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.asignacion}">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -54,7 +58,8 @@
 								<div class="col-lg-9">
 									<select id="marcaVehiculoId" class="form-control"
 										name="marcaVehiculoId">
-										<option th:value="${inventarioVehiculo.marcaVehiculoId.marcaVehiculoId}"
+										<option
+											th:value="${inventarioVehiculo.marcaVehiculoId.marcaVehiculoId}"
 											th:text="${inventarioVehiculo.marcaVehiculoId.marca}" />
 										<option th:each="marcaVehiculo : ${marcaVehiculo}"
 											th:value="${marcaVehiculo.marcaVehiculoId}"
@@ -67,14 +72,16 @@
 								<label class="col-lg-3 col-form-label form-control-label">Modelo</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="modelo"
-										name="modelo" required="required" autocomplete="off" th:value="${inventarioVehiculo.modelo}">
+										name="modelo" required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.modelo}">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Año</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="anho" name="anho"
-										required="required" autocomplete="off" th:value="${inventarioVehiculo.anho}">
+										required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.anho}">
 								</div>
 							</div>
 
@@ -84,7 +91,8 @@
 								<div class="col-lg-9">
 									<select id="claseVehiculoId" class="form-control"
 										name="claseVehiculoId">
-										<option th:value="${inventarioVehiculo.claseVehiculoId.claseVehiculoId}"
+										<option
+											th:value="${inventarioVehiculo.claseVehiculoId.claseVehiculoId}"
 											th:text="${inventarioVehiculo.claseVehiculoId.clase}" />
 										<option th:each="claseVehiculo : ${claseVehiculo}"
 											th:value="${claseVehiculo.claseVehiculoId}"
@@ -97,7 +105,8 @@
 									de Motor</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="numeroMotor"
-										name="numeroMotor" required="required" autocomplete="off" th:value="${inventarioVehiculo.numeroMotor}">
+										name="numeroMotor" required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.numeroMotor}">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -105,7 +114,8 @@
 									de Chasis</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="numeroChasis"
-										name="numeroChasis" required="required" autocomplete="off" th:value="${inventarioVehiculo.numeroChasis}">
+										name="numeroChasis" required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.numeroChasis}">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -113,7 +123,8 @@
 									VIN</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="numeroVin"
-										name="numeroVin" required="required" autocomplete="off" th:value="${inventarioVehiculo.numeroVin}">
+										name="numeroVin" required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.numeroVin}">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -121,21 +132,24 @@
 									/ Ass.</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="tipoAsientos"
-										name="tipoAsientos" required="required" autocomplete="off" th:value="${inventarioVehiculo.tipoAsientos}">
+										name="tipoAsientos" required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.tipoAsientos}">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Color.</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="color" name="color"
-										required="required" autocomplete="off" th:value="${inventarioVehiculo.color}">
+										required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.color}">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Descripción.</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="descripcion"
-										name="descripcion" required="required" autocomplete="off" th:value="${inventarioVehiculo.descripcion}">
+										name="descripcion" required="required" autocomplete="off"
+										th:value="${inventarioVehiculo.descripcion}">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -149,14 +163,16 @@
 								<label class="col-lg-3 col-form-label form-control-label">Capacidad.</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="capacidad"
-										name="capacidad" required="required" th:value="${inventarioVehiculo.capacidad}">
+										name="capacidad" required="required"
+										th:value="${inventarioVehiculo.capacidad}">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-lg-3 col-form-label form-control-label">Combustible.</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="combustible"
-										name="combustible" required="required" th:value="${inventarioVehiculo.combustible}">
+										name="combustible" required="required"
+										th:value="${inventarioVehiculo.combustible}">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -165,7 +181,8 @@
 								<div class="col-lg-9">
 									<select id="estadoVehiculoId" class="form-control"
 										name="estadoVehiculoId">
-											<option th:value="${inventarioVehiculo.estadoVehiculoId.estadoVehiculoId}"
+										<option
+											th:value="${inventarioVehiculo.estadoVehiculoId.estadoVehiculoId}"
 											th:text="${inventarioVehiculo.estadoVehiculoId.estVehiculo}" />
 										<option th:each="estadoVehiculo : ${estadoVehiculo}"
 											th:value="${estadoVehiculo.estadoVehiculoId}"
@@ -178,7 +195,20 @@
 									Por:</label>
 								<div class="col-lg-9">
 									<input class="form-control" type="text" id="utilizadoPor"
-										name="utilizadoPor" th:value="${inventarioVehiculo.utilizadoPor}">
+										name="utilizadoPor"
+										th:value="${inventarioVehiculo.utilizadoPor}">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-lg-3 col-form-label form-control-label">Aplica Prestamo? </label>
+								<div class="col-lg-9">
+									<select id="aplica" class="form-control"
+										name="aplica">
+										<option th:each="condicion : ${condiciones}"
+											th:value="${condicion.valor}" th:text="${condicion.nombre}"
+											th:selected="${!inventarioVehiculo.aplica}" />
+
+									</select>
 								</div>
 							</div>
 							<div class="form-group row">
