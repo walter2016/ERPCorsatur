@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -240,7 +241,7 @@ public class AsignacionTransporteController {
 		return new ModelAndView("redirect:/solicitudvehiculo/lista");
 	}
 	
-	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
 	@GetMapping("/borrar/{asignacionTransporteId}")
 	public ModelAndView borrar(@PathVariable("asignacionTransporteId") int asignacionTransporteId) {
 		if (asignacionTransporteService.existsById(asignacionTransporteId)) {
@@ -252,5 +253,34 @@ public class AsignacionTransporteController {
 		}
 		return null;
 	}
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRAN')")
+	@GetMapping("/finalizar/{asignacionTransporteId}")
+	public ModelAndView finalizar(@PathVariable("asignacionTransporteId") int asignacionTransporteId) {
+		if (asignacionTransporteService.existsById(asignacionTransporteId)) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			UserDetails userDetails = (UserDetails) auth.getPrincipal();
+			Usuario usuario = this.usuarioService.getByNombreUsuario(userDetails.getUsername()).get();
+			asignacionTransporteService.finalizar(asignacionTransporteId, new Date(), usuario.getNombreUsuario());
+			System.out.println("Aqui estoy");
+			AsignacionTransporte asignacionTransporte = asignacionTransporteService.getOne(asignacionTransporteId).get();
+			
+			try {
+				int motorista =asignacionTransporte.getMotoristaId().getMotoristaId();		
+				if(Objects.nonNull(motorista)) {
+					motoristaService.finalizarAsignacion(asignacionTransporte.getMotoristaId().getMotoristaId(), new Date(), usuario.getNombreUsuario());
+				}
+			}catch(NullPointerException e) {
+				e.toString();
+			}
+			catch(Exception e) {
+				e.toString();
+			}
+			inventarioVehiculoService.dejarDisponible(asignacionTransporte.getInventarioVehiculoId().getInventarioVehiculoId(), new Date(), usuario.getNombreUsuario());
+			return new ModelAndView("redirect:/solicitudvehiculo/lista");
+		}
+		return null;
+	}
+
 
 }

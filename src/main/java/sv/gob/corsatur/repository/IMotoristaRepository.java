@@ -23,7 +23,7 @@ public interface IMotoristaRepository extends JpaRepository<Motoristas, Integer>
 	    
 	    @Modifying
 	    @Query(value = "UPDATE  motoristas SET estado='N', disponible='N', update_date=:updateDate,user_update=:userUpdate  WHERE motorista_id=:motoristaId", nativeQuery=true)
-	    void eliminarMotorista(@Param("motoristaId") int gerenciaId, @Param("updateDate") Date updateDate, @Param("userUpdate") String userUpdate);
+	    void eliminarMotorista(@Param("motoristaId") int motoristaId, @Param("updateDate") Date updateDate, @Param("userUpdate") String userUpdate);
 	    
 	    
 	    @Query(value = "SELECT * FROM motoristas WHERE estado='A'",
@@ -35,6 +35,10 @@ public interface IMotoristaRepository extends JpaRepository<Motoristas, Integer>
 	    @Query(value = "SELECT * FROM motoristas WHERE estado='A' and disponible='S';", nativeQuery=true)
 	    List<Motoristas> obtenerSinAsignar();
 	    
+	    
+	    @Modifying
+	    @Query(value = "UPDATE  motoristas SET  disponible='S', update_date=:updateDate,user_update=:userUpdate  WHERE motorista_id=:motoristaId", nativeQuery=true)
+	    void eliminarAsgnacion(@Param("motoristaId") int motoristaId, @Param("updateDate") Date updateDate, @Param("userUpdate") String userUpdate);
 	    
 
 	

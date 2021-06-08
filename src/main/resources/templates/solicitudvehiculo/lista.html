@@ -20,8 +20,13 @@
 						<th>Fecha Utilización</th>
 						<th>Gerencia que solicita</th>
 						<th>Estado</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_TRAN') || hasRole('ROLE_ADMIN')">Autorizar</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_TRAN') || hasRole('ROLE_ADMIN')">Denegar</th>
+						<th scope="col"
+							sec:authorize="hasRole('ROLE_TRAN') || hasRole('ROLE_ADMIN')">Autorizar</th>
+						<th scope="col"
+							sec:authorize="hasRole('ROLE_TRAN') || hasRole('ROLE_ADMIN')">Denegar</th>
+						<th scope="col"
+							sec:authorize="hasRole('ROLE_TRAN') || hasRole('ROLE_ADMIN')">Finalizo
+							la Misión</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -41,6 +46,11 @@
 							th:href="@{'/solicitudvehiculo/borrar/' + ${asigVehiculo.asignacionTransporteId}}"><button
 									class="btn btn-outline-danger">
 									<i class="far fa-trash-alt"></i>
+								</button></a></td>
+						<td sec:authorize="hasRole('ROLE_TRAN') || hasRole('ROLE_ADMIN')"><a
+							th:href="@{'/solicitudvehiculo/finalizar/' + ${asigVehiculo.asignacionTransporteId}}"><button
+									class="btn btn-outline-primary">
+									<i class="fas fa-check"></i>
 								</button></a></td>
 					</tr>
 				</tbody>
@@ -89,7 +99,8 @@
 						</ul>
 					</nav>
 				</div>
-				<a sec:authorize="hasRole('ROLE_TRAN') || hasRole('ROLE_ADMIN')" th:href="@{/solicitudvehiculo/nuevo}">
+				<a sec:authorize="hasRole('ROLE_TRAN') || hasRole('ROLE_ADMIN')"
+					th:href="@{/solicitudvehiculo/nuevo}">
 					<button class="btn btn-outline-success btn-lg">
 						<i class="fas fa-plus-circle"></i> Nueva Solicitud
 					</button>

@@ -80,7 +80,7 @@ public class CategoriaController {
 		}
 
 		if (categoriaService.existsByCodigo(codigo)){
-			mv.setViewName("area/nuevo");
+			mv.setViewName("categoria/nuevo");
 			mv.addObject("error", "Ese Codigo ya Existe");
 			return mv;
 		}

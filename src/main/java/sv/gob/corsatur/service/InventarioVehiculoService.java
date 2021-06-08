@@ -60,6 +60,10 @@ public class InventarioVehiculoService {
 		inventarioVehiculoRepository.eliminarInventarioVehiculo(inventarioVehiculoId, updateDate, userUpdate);
 	}
 	
+	public void dejarDisponible(int inventarioVehiculoId, Date updateDate, String userUpdate) {
+		inventarioVehiculoRepository.dejarDisponible(inventarioVehiculoId, updateDate, userUpdate);
+	}
+	
 	public Page<InventarioVehiculo> obtenerActivos(Pageable pageable){
 		return inventarioVehiculoRepository.findInventarioVehiculo(pageable);
 	}

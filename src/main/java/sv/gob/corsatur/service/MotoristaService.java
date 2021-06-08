@@ -53,6 +53,10 @@ public class MotoristaService {
 		motoristaRepository.eliminarMotorista(motoristaId, updateDate, userUpdate);
 	}
 	
+	public void finalizarAsignacion(int motoristaId, Date updateDate, String userUpdate) {
+		motoristaRepository.eliminarAsgnacion(motoristaId, updateDate, userUpdate);
+	}
+	
 	public Page<Motoristas> obtenerActivos(Pageable pageable){
 		return motoristaRepository.findGerencia(pageable);
 	}

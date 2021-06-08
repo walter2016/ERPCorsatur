@@ -35,6 +35,9 @@ public class AsignacionTransporteService {
 	public void denegar(int asignacionTransporteId, Date updateDate, String userUpdate) {
 		asignacionVehiculoRepository.denegar(asignacionTransporteId, updateDate, userUpdate);
 	}
+	public void finalizar(int asignacionTransporteId, Date updateDate, String userUpdate) {
+		asignacionVehiculoRepository.finalizar(asignacionTransporteId, updateDate, userUpdate);
+	}
 
 	public Page<AsignacionTransporte> obtenerAsignacionTransporte(Pageable pageable){
 		return asignacionVehiculoRepository.buscarSolicitudes(pageable);

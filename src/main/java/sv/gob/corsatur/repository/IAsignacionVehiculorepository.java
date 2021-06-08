@@ -29,4 +29,8 @@ public interface IAsignacionVehiculorepository extends JpaRepository<AsignacionT
 	    	    countQuery = "SELECT count(*) FROM asignacion_transporte WHERE estado='A' and user_create=:userCreate",
 	    	    nativeQuery = true)
 	    	  Page<AsignacionTransporte> buscarSolicitudesUsuario(Pageable pageable, @Param("userCreate") String userCreate);
+	    
+	    @Modifying
+	    @Query(value = "UPDATE  asignacion_transporte SET estado_solicitud='FINALIZADA', update_date=:updateDate,user_update=:userUpdate  WHERE asigna_transporte_id=:asignacionTransporteId", nativeQuery=true)
+	    void finalizar(@Param("asignacionTransporteId") int asignacionTransporteId, @Param("updateDate") Date updateDate, @Param("userUpdate") String userUpdate);
 }

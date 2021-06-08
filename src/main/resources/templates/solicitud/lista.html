@@ -21,7 +21,6 @@
 						<th>Resolución de Solicitud</th>
 						<th>Empleado Solicitante</th>
 						<th scope="col" sec:authorize="hasRole('ROLE_HELP') || hasRole('ROLE_ADMIN')">Editar</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_HELP') || hasRole('ROLE_ADMIN')">Realizar Descarga</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -36,11 +35,6 @@
 							th:href="@{'/solicitud/editar/' + ${solicitud.solicitudId}}"><button
 									class="btn btn-outline-warning">
 									<i class="far fa-edit"></i>
-								</button></a></td>
-						<td sec:authorize="hasRole('ROLE_HELP') || hasRole('ROLE_ADMIN')"><a
-							th:href="@{'/solicitud/borrar/' + ${solicitud.solicitudId}}"><button
-									class="btn btn-outline-danger">
-									<i class="far fa-trash-alt"></i>
 								</button></a></td>
 					</tr>
 				</tbody>

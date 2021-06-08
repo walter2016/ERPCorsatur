@@ -18,6 +18,15 @@
 	top: 7px;
 }
 </style>
+<style>
+.form-group .form-control-label:after {
+	color: #d00;
+	content: "*";
+	position: absolute;
+	margin-left: 8px;
+	top: 7px;
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
@@ -37,18 +46,15 @@
 
 				<ul class="navbar-nav mr-auto">
 
-					<li class="nav-item active"
-						sec:authorize="isAuthenticated()"><a
+					<li class="nav-item active" sec:authorize="isAuthenticated()"><a
 						class="nav-link" th:href="@{/user/listahelpdesk}"> <i
 							class="far fa-list-alt"></i> Ingreso Solicitud HelpDesk
 					</a></li>
-					<li class="nav-item active"
-						sec:authorize="isAuthenticated()"><a
+					<li class="nav-item active" sec:authorize="isAuthenticated()"><a
 						class="nav-link" th:href="@{/user/listasolicvehiculo}"> <i
 							class="far fa-list-alt"></i> Ingreso Solicitud de Transporte
 					</a></li>
-					<li class="nav-item active"
-						sec:authorize="isAuthenticated()"><a
+					<li class="nav-item active" sec:authorize="isAuthenticated()"><a
 						class="nav-link" th:href="@{/user/cambio}"> <i
 							class="far fa-list-alt"></i> Cambio de Contraseña
 					</a></li>
@@ -62,10 +68,6 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" th:href="@{/area/lista}"> <i
 								class="far fa-list-alt"></i> Lista de Areas
-							</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" th:href="@{/empleado/lista}"> <i
-								class="far fa-list-alt"></i> Lista de Empleados
 							</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" th:href="@{/categoria/lista}"> <i
@@ -154,7 +156,11 @@
 							<a class="dropdown-item" th:href="@{/configuracion/lista}"> <i
 								class="far fa-list-alt"></i> Configuraciones
 							</a>
-	
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/empleado/lista}"> <i
+								class="far fa-list-alt"></i> Lista de Empleados
+							</a>
+
 						</div></li>
 
 				</ul>
