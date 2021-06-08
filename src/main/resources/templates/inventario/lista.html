@@ -21,8 +21,11 @@
 						<th>Serie</th>
 						<th>Fecha Adquisición</th>
 						<th>Costo de Adquisición</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Editar</th>
-						<th scope="col" sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Eliminar</th>
+						<th>Ver</th>
+						<th scope="col"
+							sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Editar</th>
+						<th scope="col"
+							sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')">Eliminar</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -34,6 +37,11 @@
 						<td th:text="${inventario.serie}"></td>
 						<td th:text="${inventario.fechaAdquisicion}"></td>
 						<td th:text="${inventario.costo}"></td>
+						<td><a
+							th:href="@{'/inventario/detalle/' + ${inventario.inventarioId}}"><button
+									class="btn btn-outline-primary">
+									<i class="far fa-eye"></i>
+								</button></a></td>
 						<td sec:authorize="hasRole('ROLE_ACTI') || hasRole('ROLE_ADMIN')"><a
 							th:href="@{'/inventario/editar/' + ${inventario.inventarioId}}"><button
 									class="btn btn-outline-warning">

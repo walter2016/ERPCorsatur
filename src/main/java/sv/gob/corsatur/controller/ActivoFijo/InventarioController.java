@@ -28,6 +28,7 @@ import sv.gob.corsatur.model.CodigoHacienda;
 import sv.gob.corsatur.model.Condicion;
 import sv.gob.corsatur.model.EstadoVehiculo;
 import sv.gob.corsatur.model.Inventario;
+import sv.gob.corsatur.model.InventarioVehiculo;
 import sv.gob.corsatur.model.Tipo;
 import sv.gob.corsatur.model.Usuario;
 import sv.gob.corsatur.service.CodigoHaciendaService;
@@ -82,6 +83,18 @@ public class InventarioController {
 		model.addAttribute("condiciones", condiciones);
 		return "inventario/nuevo";
 	}
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
+	@GetMapping("/detalle/{id}")
+	public ModelAndView detalle(@PathVariable("id") int id) {
+		if (!inventarioService.existsById(id))
+			return new ModelAndView("redirect:/inventario/lista");
+		Inventario inventario = inventarioService.getOne(id).get();
+		ModelAndView mv = new ModelAndView("/inventario/detalle");
+		mv.addObject("inventario", inventario);
+		return mv;
+	}
+	
 
 	@PreAuthorize("hasRole('ADMIN') or hasRole('ACTI')")
 	@PostMapping("/guardar")

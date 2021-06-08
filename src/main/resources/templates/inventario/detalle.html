@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments :: headerfiles">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<header th:insert="fragments :: nav"></header>
+	<div class="container">
+		<div class="card">
+			<div class="card-header text-center">
+				<h1>
+					<b>Detalles del Inventario</b>
+				</h1>
+			</div>
+			<div class="card-body">
+				<h5 class="card-title"
+					th:text="'Código Individual: ' + ${inventario.codigoIndividual}"></h5>
+				<h5 class="card-title"
+					th:text="'Descripción: ' + ${inventario.tipoId.nombre}"></h5>
+				<h5 class="card-title" th:text="'Marca: ' + ${inventario.marca}"></h5>
+				<h5 class="card-title" th:text="'Modelo: ' + ${inventario.modelo}"></h5>
+				<h5 class="card-title" th:text="'Serie: ' + ${inventario.serie}"></h5>
+				<h5 class="card-title" th:text="'Fecha Adquisición: ' + ${inventario.fechaAdquisicion}"></h5>
+				<h5 class="card-title" th:text="'Costo: ' + ${inventario.costo}"></h5>
+				<h5 class="card-title" th:text="'Valor Residual: ' + ${inventario.valorResidual}"></h5>
+				<h5 class="card-title" th:text="'Valor a Depreciar: ' + ${inventario.valorDepreciar}"></h5>
+				<h5 class="card-title" th:text="'Depreciación mensual: ' + ${inventario.depreciacionMensual}"></h5>
+				<h5 class="card-title" th:text="'Depreciación anual: ' + ${inventario.depreciacionAnual}"></h5>
+				<h5 class="card-title" th:text="'Depreciación acumulada: ' + ${inventario.depreciacionAcumulada}"></h5>
+				<h5 class="card-title" th:text="'Valor en Libros: ' + ${inventario.valorLibros}"></h5>
+				<a th:href="@{/inventario/lista}" class="btn btn-outline-info">
+					<i class="fas fa-arrow-circle-left"></i> Volver
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+	<footer th:insert="fragments :: footer"></footer>
+	<div th:insert="fragments :: scripts"></div>
+</body>
+</html>
